@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Booking Page</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Hotel Booking</h1>
+
+      <!-- Booking Form -->
+      <form
+        id="bookingForm"
+        class="mt-4"
+        method="post"
+        enctype="application/x-www-form-urlencoded"
+        action="/bookingdetails"
+      >
+        <!-- Hotel Information -->
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title"><%= hotel.HotelName %></h5>
+            <p class="card-text">
+              <b>Location:</b> <%= hotel.Address.City %>, <%=
+              hotel.Address.StateProvince %>
+            </p>
+            <p class="card-text"><b>Rating:</b> <%= hotel.Rating %></p>
+            <!-- Add more hotel details as needed -->
+          </div>
+        </div>
+    <!-- Full Name and Mobile Number -->
+<div class="row mb-3">
+    <div class="col-md-6">
+      <label for="fullName" class="form-label">Full Name:</label>
+      <input type="text" class="form-control" id="fullName" name="fullName" required />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="mobileNumber" class="form-label">Mobile Number:</label>
+      <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required />
+    </div>
+  </div>
+  
+  <!-- Room Type Selection -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="roomType" class="form-label">Select Room Type:</label>
+      <select class="form-select" id="roomType" name="roomType" onchange="updateGuestCountLimits()" required>
+        <% hotel.Rooms.slice(0, 5).forEach(room => { %>
+          <option value="<%= room.Description %>" data-sleeps="<%= room.SleepsCount %>">
+            <%= room.Description %> - $<%= room.BaseRate.toFixed(2) %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+  
+    <!-- Number of Guests -->
+    <div class="col-md-6">
+      <label for="guestCount" class="form-label">Number of Guests:</label>
+      <input type="number" class="form-control" id="guestCount" name="guestCount" min="1" max="1" required />
+      <small class="form-text text-muted" id="guestLimits">Maximum: 1 guest</small>
+    </div>
+  </div>
+  
+  <!-- Date Range Selection -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="checkInDate" class="form-label">Check-in Date:</label>
+      <input type="date" class="form-control" id="checkInDate" name="checkInDate" required />
+    </div>
+  
+    <div class="col-md-6">
+      <label for="checkOutDate" class="form-label">Check-out Date:</label>
+      <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required />
+    </div>
+  </div>
+  
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Book Now</button>
+      </form>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function updateGuestCountLimits() {
+        var roomTypeSelect = document.getElementById("roomType");
+        var guestCountInput = document.getElementById("guestCount");
+        var guestLimits = document.getElementById("guestLimits");
+
+        var selectedOption =
+          roomTypeSelect.options[roomTypeSelect.selectedIndex];
+        var sleepsCount = selectedOption.getAttribute("data-sleeps");
+
+        guestCountInput.setAttribute("max", sleepsCount);
+        guestLimits.textContent = "Maximum: " + sleepsCount + " guests";
+      }
+    </script>
+  </body>
+</html>
