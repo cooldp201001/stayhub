@@ -7,7 +7,7 @@ const connectDB = async () => {
         console.log('Database connected successfully');
 1
         // Access the "users" collection
-      const   usersCollection =  await conn.connection.collection('hotel_inventory');
+      const   usersCollection =   conn.connection.collection('hotel_inventory');
         // return usersCollection;
          
         return   await usersCollection.find().toArray();
