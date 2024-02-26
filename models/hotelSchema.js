@@ -35,6 +35,6 @@ const hotelSchema = new mongoose.Schema({
 });
 
 
-const Hotel = mongoose.model('Hotel', hotelSchema,'hotel_inventory');
+const Hotel = mongoose.model('Hotel', hotelSchema);
 
 module.exports = Hotel;

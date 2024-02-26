@@ -7,10 +7,9 @@ router.get('/:hotelId', async (req, res) => {
     // Retrieve hotel information based on the ID and render the booking page
 
     try {
+        
         // Fetch hotel information based on the hotelId
         const hotel = await Hotel.findById(hotelId);
-
-
         if (!hotel) {
             return res.status(404).send('Hotel not found');
         }
