@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../config/db');
 
 const roomSchema = new mongoose.Schema({
   Description: String,
@@ -32,9 +32,18 @@ const hotelSchema = new mongoose.Schema({
   Rating: Number,
   Address: addressSchema,
   Rooms: [roomSchema],
+  imagesUrl:{
+    image1:String,
+    image2:String,
+    image3:String,
+    image4:String,
+    image5:String
+  }
 });
 
 
-const Hotel = mongoose.model('Hotel', hotelSchema);
+const hotels = mongoose.model('hotels',hotelSchema);
 
-module.exports = Hotel;
+
+
+module.exports = hotels

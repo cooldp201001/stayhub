@@ -3,11 +3,11 @@ const router = express.Router();
 
 const Hotel = require('../models/hotelSchema');
 
-router.get('/:hotelId',async (req,res)=>{
-const hotelId = req.params.hotelId;
+router.get('/:hotelName',async (req,res)=>{
+const hotelName = req.params.hotelName;
 
 try{
-    const hotel = await Hotel.findById(hotelId)
+    const hotel = await Hotel.findOne({"HotelName":hotelName})
     if(!hotel){
         return res.status(404).send('Hotel not found');
     }

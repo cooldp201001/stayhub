@@ -4,22 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Details</title>
-    <!-- Add Bootstrap CSS link -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .hotelImagesLarge{
+            width: 100%;
+            height: 30rem;
+            object-fit: cover;
+
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
      
-<div class="container mt-5">
+<div class="container-fluid m-2">
     <h1><%= hotel.HotelName %></h1>
     <p><%= hotel.Description %></p>
-
-    <h2>Address</h2>
-    <p><b>Street:</b> <%= hotel.Address.StreetAddress %></p>
-    <p><b>City:</b> <%= hotel.Address.City %></p>
-    <p><b>State:</b> <%= hotel.Address.StateProvince %></p>
-    <p><b>Postal Code:</b> <%= hotel.Address.PostalCode %></p>
-    <p><b>Country:</b> <%= hotel.Address.Country %></p>
-
+       <div>
+      <div id="carouselExampleIndicators" class="carousel slide" >
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="<%= hotel.imagesUrl.image1 %>" class="hotelImagesLarge" alt="...">
+            </div>
+            <div class="carousel-item ">
+                <img src="<%= hotel.imagesUrl.image2 %>" class="hotelImagesLarge"alt="...">
+            </div>
+            <div class="carousel-item ">
+                <img src="<%= hotel.imagesUrl.image3 %>" class="hotelImagesLarge" alt="...">
+            </div>
+            <div class="carousel-item  ">
+              <img src="<%= hotel.imagesUrl.image4 %>" class="hotelImagesLarge" alt="...">
+          </div>
+          <div class="carousel-item ">
+            <img src="<%= hotel.imagesUrl.image5 %>" class="hotelImagesLarge" alt="...">
+        </div>
+        </div>
+        <button class="carousel-control-prev " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"  aria-hidden="true"></span>
+           
+        </button>
+        <button class="carousel-control-next " type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon"  aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+   
+  <!-- Hotel rooms -->
     <h2>Rooms</h2>
     <div class="row">
         <% hotel.Rooms.slice(0, 5).forEach(room => { %>
@@ -30,18 +66,24 @@
                         <p class="card-text"><b>Type:</b> <%= room.Type %></p>
                         <p class="card-text"><b>Base Rate:</b> $<%= room.BaseRate.toFixed(2) %></p>
                         <!-- Add more details as needed -->
-                    </div>
+                    </div>  
                 </div>
             </div>
         <% }) %>
+        
+        <!-- Hotel address -->
+        <h2>Address</h2>
+        <p><b>Street:</b> <%= hotel.Address.StreetAddress %></p> 
+        <p><b>City:</b> <%= hotel.Address.City %></p>
+         <p><b>State:</b> <%= hotel.Address.StateProvince %></p>
+         <p><b>Postal Code:</b> <%= hotel.Address.PostalCode %></p>
+         <p><b>Country:</b> <%= hotel.Address.Country %></p> 
     </div>
-    <div><a type="button" href="/booking/<%= hotel._id%>" class="btn btn-primary btn-lg"> Reserve Now</a></div>
+    <div><a type="button" href="/booking/<%=hotel.HotelName%>" class="btn btn-primary btn-lg">Reserve Now</a></div>
 </div>
 
 <!-- Add Bootstrap JS and Popper.js scripts -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"  crossorigin="anonymous"></script>
 
 </body>
 </html>

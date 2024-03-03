@@ -1,21 +1,14 @@
 const mongoose = require('mongoose');
+require('dotenv').config()
 
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect('mongodb+srv://kuldeeppatel23:F1zDRSOkYl3T0BIJ@cluster0.0c2ried.mongodb.net/hotel_database');
+mongoose.connect(process.env.CONNECTION_STRING)
+.then(()=>{
+    console.log("connected to DB");
+  
+})
+.catch((err)=>{
+    console.log("Connection failed",err);
+})
 
-        console.log('Database connected successfully');
-1
-        // Access the "users" collection
-      const   usersCollection =   conn.connection.collection('hotel_info');
-        // return usersCollection;
-         
-        return   await usersCollection.find().toArray();
-    } catch (err) {
-        console.error(err.message);
-        process.exit(1);
-    }
-}
+module.exports =mongoose
 
-
-module.exports = connectDB;
