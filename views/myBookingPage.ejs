@@ -1,0 +1,62 @@
+<!-- mybookings.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <!-- Bootstrap CSS link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS for styling -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .booking-card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .booking-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .booking-card p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="mb-4">My Bookings</h1>
+
+    <div class="row">
+        <% bookings.forEach(booking => { %>
+            <div class="col-md-6">
+                <div class="card booking-card">
+                    <div class="card-body">
+                        <h2><%= booking.hotelName %></h2>
+                        <p><strong>Check-in Date:</strong> <span id="checkInDate_<%= booking._id %>"><%= booking.checkInDate %></span></p>
+                        <p><strong>Check-out Date:</strong> <span id="checkOutDate_<%= booking._id %>"><%= booking.checkOutDate %></span></p>
+                        <!-- Add more details as needed -->
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    
+
+    
+
+    <!-- Bootstrap JS scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

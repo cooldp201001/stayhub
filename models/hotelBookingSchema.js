@@ -1,6 +1,7 @@
 const mongoose = require('../config/db');
 
 const bookingSchema = new mongoose.Schema({
+
   fullName: {
     type: String,
     required: true
@@ -24,6 +25,14 @@ const bookingSchema = new mongoose.Schema({
   checkOutDate: {
     type: Date,
     required: true
+  },
+  hotelName:{
+    type:String,
+    required:true
+  },
+  location:{
+    type:String,
+    required:true
   },
   bookingDate: {
     type: Date,
