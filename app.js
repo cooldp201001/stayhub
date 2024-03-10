@@ -9,6 +9,9 @@ const hotelInfoRoutes = require("./Routes/hotelInfoRoutes");
 const bookingRoutes = require("./Routes/bookingRoutes");
 const bookingInfoRoutes = require("./Routes/bookingInfoRoutes");
 const myBookingRoutes = require('./Routes/myBookingRoutes')
+const registerRoutes = require('./Routes/registerRoutes')
+const errorRoutes = require('./Routes/errorRoutes');
+const errorHandler = require("./middleware/errorHandler");
 //Set EJS as the view engine
 app.set("view engine", "ejs");
 //serve static file
@@ -18,8 +21,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 app.get("/", (req, res) => {
-  res.redirect("home");
+  res.redirect("/home");
 });
 app.get("/home", async (req, res) => {
   const hotelsInfo = await hotels.find();
@@ -39,12 +43,21 @@ app.use("/bookingdetails", bookingInfoRoutes);
 //my booking route
 app.use('/mybookings',myBookingRoutes)
 
+// register routes
+app.use('/register',registerRoutes)
+//middleware
+app.use(errorHandler)
+
 app.use('/login',(req,res)=>{
  res.render('loginPage')
 })
-app.use('/register',(req,res)=>{
- res.render('registerPage')
-})
+//error routes
+// app.use('/error',errorRoutes)
+
+
+
+
+
 app.listen(PORT, () => {
   console.log(`server started \n http://localhost:${PORT}`);
 });

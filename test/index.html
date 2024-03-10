@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="myForm">
+        <!-- Form fields here -->
+        <input type="text" name="firstName" />
+        <input type="text" name="lastName" />
+        <!-- Other form fields -->
+        <button type="submit">Submit</button>
+    </form>
+    
+    <script>const form = document.getElementById('myForm');
+
+        form.addEventListener('submit', function(event) {
+            // Prevent the default form submission behavior
+            event.preventDefault();
+            
+            // Create a FormData object to collect the form data
+            const formData = new FormData(form);
+             console.log(formData);
+            // Access form data using FormData methods
+            const firstName = formData.get('firstName');
+            const lastName = formData.get('lastName');
+            
+            // You can now use the form data as needed, such as sending it via AJAX
+            
+            // Example: Log form data to the console
+            console.log('First Name:', firstName);
+            console.log('Last Name:', lastName);
+            
+            // Example: Send form data to server using fetch API
+            fetch('/register', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Form submitted successfully');
+                } else {
+                    console.error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+            });
+        });
+        </script>
+</body>
+</html>
