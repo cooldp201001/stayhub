@@ -45,7 +45,8 @@ app.use('/mybookings',myBookingRoutes)
 
 // register routes
 app.use('/register',registerRoutes)
-//middleware
+
+// error handler middleware
 app.use(errorHandler)
 
 app.use('/login',(req,res)=>{
