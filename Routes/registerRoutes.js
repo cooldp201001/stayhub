@@ -7,11 +7,19 @@ router.get('/',(req,res)=>{
 })
 
 router.post("/", async (req, res,next) => {
-
+         
   try { 
     const newUserinfo = req.body;
        try{
            const newUser =  new User(newUserinfo)
+             // Generate a salt with 10 rounds
+      const salt = await bcrypt.genSalt(10);
+
+      // Hash the password with the generated salt
+      const hashedPassword = await bcrypt.hash(newUserinfo.password, salt);
+
+      // Replace the plain password with the hashed password
+      newUser.password = hashedPassword;
            const savedNewUser = await  newUser.save()
 
                // Send a JSON response back to the client
@@ -36,30 +44,6 @@ router.post("/", async (req, res,next) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 
-
-
-
-
-  // const newUserInfo = req.body;
-  // console.log("hii from backend",newUserInfo);
-  // const {firstName,lastName,password,confirmPassword} = req.body
-  // res.json({name:"kuldeep"})
-  // try {
-  //   let user = new newUser(newUserInfo);
-  //   let savedUser = await user.save();
-  //   // console.log(savedUser);
-  //   res.status(301).redirect('/home');
-  // } catch (error) {
-  //   if (error.code === 11000 && error.keyPattern.email) {
-  //     //Duplicate email id found so sending error
-  //     // res.redirect('error');
-  //     next(error)
-  //   } else {
-  //     // Sending error code for other errors
-  //     // res.status(501).send( `Error in registering the user in DB with error code:${error.code}`);
-  //     next(error)
-  //   }
-  // }
 });
 
 module.exports = router;

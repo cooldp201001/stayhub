@@ -19,11 +19,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  confirmPassword: {
-    type: String,
-    required: true
-  },
-  // Add more fields as needed
 });
 
 // Create a model based on the schema

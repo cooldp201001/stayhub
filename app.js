@@ -28,7 +28,8 @@ app.get("/", (req, res) => {
 app.get("/home", async (req, res) => {
   const hotelsInfo = await hotels.find();
   // console.log(await usersCollection)
-  res.render("homePage", { hotelsInfo });
+//   res.render("homePage", { hotelsInfo });
+ res.render("registerPage")
 });
 
 //hotel details router
