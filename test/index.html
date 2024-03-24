@@ -8,47 +8,24 @@
 <body>
     <form id="myForm">
         <!-- Form fields here -->
-        <input type="text" name="firstName" />
-        <input type="text" name="lastName" />
+        <input type="text" name="firstName" id="firstName" />
+        <input type="text" name="lastName" id="lastName" />
         <!-- Other form fields -->
         <button type="submit">Submit</button>
     </form>
     
-    <script>const form = document.getElementById('myForm');
-
-        form.addEventListener('submit', function(event) {
+    <script>
+    const form = document.getElementById('myForm');
+    const firstName = document.getElementById('firstName')
+    const lastName = document.getElementById('lastName');
+    form.addEventListener('submit', function(event) {
             // Prevent the default form submission behavior
             event.preventDefault();
-            
-            // Create a FormData object to collect the form data
-            const formData = new FormData(form);
-             console.log(formData);
-            // Access form data using FormData methods
-            const firstName = formData.get('firstName');
-            const lastName = formData.get('lastName');
-            
-            // You can now use the form data as needed, such as sending it via AJAX
-            
-            // Example: Log form data to the console
-            console.log('First Name:', firstName);
-            console.log('Last Name:', lastName);
-            
-            // Example: Send form data to server using fetch API
-            fetch('/register', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Form submitted successfully');
-                } else {
-                    console.error('Form submission failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error submitting form:', error);
-            });
-        });
+        //    alert(firstName.value)
+        //    console.log(firstName.value);
+           lastName.value = firstName.value
+        }
+        )
         </script>
 </body>
 </html>

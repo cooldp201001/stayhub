@@ -10,8 +10,8 @@ const bookingRoutes = require("./Routes/bookingRoutes");
 const bookingInfoRoutes = require("./Routes/bookingInfoRoutes");
 const myBookingRoutes = require('./Routes/myBookingRoutes')
 const registerRoutes = require('./Routes/registerRoutes')
-const errorRoutes = require('./Routes/errorRoutes');
-const errorHandler = require("./middleware/errorHandler");
+const loginRoutes = require('./Routes/loginRoutes')
+
 //Set EJS as the view engine
 app.set("view engine", "ejs");
 //serve static file
@@ -47,8 +47,8 @@ app.use('/mybookings',myBookingRoutes)
 // register routes
 app.use('/register',registerRoutes)
 
-// error handler middleware
-app.use(errorHandler)
+// login routes
+app.use('/login',loginRoutes)
 
 app.use('/login',(req,res)=>{
  res.render('loginPage')
