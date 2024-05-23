@@ -17,62 +17,6 @@
 <body>
     <%- include('partials/navbar') %>
 
-    <div class="container-fluid">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-
-          <% hotelsInfo.forEach((hotel, index) => { %>
-            <div class="col">
-                <div class="card">
-                    <a  style="text-decoration: none;" class="text-dark" href="/hotel-details/<%=hotel.HotelName %>" >
-                          
-                        <!-- Link to the booking page with hotel ID -->
-                        <div id="carouselExampleIndicators<%= index %>" class="carousel slide" >
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <!-- <button type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                                <button type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide-to="4" aria-label="Slide 5"></button> -->
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="<%= hotel.imagesUrl.image1 %>" class="  fix-sized" alt="...">
-                                </div>
-                                <!-- <div class="carousel-item ">
-                                    <img src="<%= hotel.imagesUrl.image2 %>" class="  fix-sized"alt="...">
-                                </div>
-                                <div class="carousel-item ">
-                                    <img src="<%= hotel.imagesUrl.image3 %>" class="  fix-sized" alt="...">
-                                </div>
-                                <div class="carousel-item  ">
-                                  <img src="<%= hotel.imagesUrl.image4 %>" class="  fix-sized" alt="...">
-                              </div>
-                              <div class="carousel-item ">
-                                <img src="<%= hotel.imagesUrl.image5 %>" class="  fix-sized" alt="...">
-                            </div> -->
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators<%= index %>" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                        <div class="card-body p-2">
-                            <h5><%= hotel.HotelName %></h5>
-                            <p class="m-1"><b>City:</b> <%= hotel.Address.City %></p>
-                            <p class="m-1"><b>Rating:</b> <%= hotel.Rating %></p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        <% }) %>
-
-    </div>
-    </div>
-  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"     crossorigin="anonymous"></script>
 </body>
 </html>
