@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const UserDatabase = require('../models/newUser');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken')
 router.post('/', async (req,res) => {
     console.log( "output from backend",req.body);
     // res.send(JSON.parse())
@@ -16,7 +16,11 @@ router.post('/', async (req,res) => {
             const passwordMatch = await bcrypt.compare(loginUserInfo.password, foundUser.password);
             if (passwordMatch) {
                 // Passwords match, user authenticated
-                res.status(200).json({ message: "User login successful" });
+                const token= createToken (foundUser._id)
+                res.cookie('jwt',token)
+                // res.status(200).json({ message: "User login successful" });
+                res.redirect('/')
+                
             } else {
                 // Passwords don't match, send error response
                 res.status(401).json({ error: "Incorrect password" });
@@ -31,4 +35,9 @@ router.post('/', async (req,res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+const createToken = (id)=>{
+    
+    return jwt.sign({id},process.env.SECRET_KEY,{expiresIn: 24 *60* 60 } )
+}
 module.exports= router

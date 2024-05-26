@@ -1,6 +1,8 @@
 const axios = require('axios')
 const hotel = "double bed Room"
-
+const express = require ("express")
+const app = express()
+ const cookiesParser = require()
 
 const encodedHotelName = encodeURIComponent(hotel);
 const apiKey = "C3rWtYYRLGGGqaLYAhiogcYkxo5fESlHCZTIvQMt6W1NO6qYfGVtPfQY";
@@ -40,3 +42,8 @@ apiCall()
 // .catch(error => console.error('Error fetching data:', error));
 
 
+// cookie parsher
+
+app.get('/set-cookies',(req,res)=>{
+
+})
