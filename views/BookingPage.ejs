@@ -15,7 +15,7 @@
 
     <!-- Booking Form -->
     <form id="bookingForm" class="mt-4" method="post" enctype="application/x-www-form-urlencoded"
-      action="/bookingdetails">
+      action="/booking">
       <!-- Hotel Information -->
       <div class="card mt-3">
         <div class="card-body">
@@ -66,6 +66,27 @@
         </div>
 
       <!-- copy here -->
+          <!-- Number of Guests -->
+          <div class="col-md-6">
+            <label for="guestCount" class="form-label">Number of Guests:</label>
+            <input type="number" class="form-control" id="guestCount" name="guestCount" min="1" max="1" required />
+            <small class="form-text text-muted" id="guestLimits">Maximum: 1 guest</small>
+          </div>
+        </div>
+   
+        <!-- Date Range Selection -->
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="checkInDate" class="form-label">Check-in Date:</label>
+            <input type="date" class="form-control" id="checkInDate" name="checkInDate" required />
+          </div>
+  
+          <div class="col-md-6">
+            <label for="checkOutDate" class="form-label">Check-out Date:</label>
+            <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required />
+          </div>
+        </div>
+  
 
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary">Book Now</button>
