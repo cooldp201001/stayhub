@@ -101,10 +101,14 @@
       )
         .then(response => {
           if (response.status == 200) {
+
             // User login successful
             // Clear any error states
             clearErrorStates();
-            console.log('User login successful');
+            //home page after sucessfull login
+            location.assign('/')
+            // console.log('User login successful');
+            location.redirect
           } else if (response.status == 404) {
             // Email not registered
             // Clear password field and show error for email

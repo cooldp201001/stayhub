@@ -10,7 +10,7 @@ const showhotelInfo = async (req, res) => {
       }
   
       // Render the booking page with hotel information
-      res.render("hotelDetailsPage", { hotelDetails});
+      res.render("hotelDetailsPage", {hotelDetails});
     } catch (error) {
       // console.log("Error fetching hotel information:", error.message);
       res.status(500).json({ message: "Error in fetching hotel information" });

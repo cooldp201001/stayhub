@@ -8,7 +8,7 @@ const HotelsCollection = require("./models/hotelSchema");
 const PORT = 1000;
 
 //routes
-const hotelInfoRoutes = require("./Routes/hotelInfoRoutes");
+const hotelDetailsRoutes= require("./Routes/hotelDetailsRoutes");
 const bookingRoutes = require("./Routes/bookingRoutes");
 const bookingInfoRoutes = require("./Routes/bookingInfoRoutes");
 const myBookingRoutes = require('./Routes/myBookingRoutes')
@@ -26,41 +26,34 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
-app.get("/home",authMiddleware, async (req, res) => {
-
+// 
+// Home routes
+app.get("/home", async (req, res) => {
   const hotelsInfo = await HotelsCollection.find();
   //renering all hotels in homepage
   res.render("homePage", { hotelsInfo });
 });
 
-//Router for showing specific hotel details
-app.use("/hotel-details", hotelInfoRoutes);
- 
-// hotel booking router
-app.use("/booking", bookingRoutes);
+// Register router
+app.use('/register',registerRoutes)
 
-// hotel booking form submission
-app.use("/bookingdetails", bookingInfoRoutes);
+// Login router
+app.use('/login',loginRoutes)
+
+// Router for showing specific hotel details
+app.use("/hotel-details", hotelDetailsRoutes);
+ 
+//  Hotel booking router for selected hotel
+app.use("/booking", bookingRoutes); 
+
+
+// Router to show booked hotels
+// app.use("/bookingdetails", bookingInfoRoutes);
 
 //my booking route
 app.use('/mybookings',myBookingRoutes)
 
-// register routes
-app.use('/register',registerRoutes)
-
-// login routes
-app.use('/login',loginRoutes)
-
-app.use('/login',(req,res)=>{
- res.render('loginPage')
-})
-//error routes
-// app.use('/error',errorRoutes)
-
-
-
-
 
 app.listen(PORT, () => {
-  console.log(`server started \n http://localhost:${PORT}`);
+  console.log(`Server started \n http://localhost:${PORT}`);
 });
