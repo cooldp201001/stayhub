@@ -10,7 +10,6 @@ const PORT = 1000;
 //routes
 const hotelDetailsRoutes= require("./Routes/hotelDetailsRoutes");
 const bookingRoutes = require("./Routes/bookingRoutes");
-const bookingInfoRoutes = require("./Routes/bookingInfoRoutes");
 const myBookingRoutes = require('./Routes/myBookingRoutes')
 const registerRoutes = require('./Routes/registerRoutes')
 const loginRoutes = require('./Routes/loginRoutes')
@@ -26,7 +25,6 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
-// 
 // Home routes
 app.get("/home", async (req, res) => {
   const hotelsInfo = await HotelsCollection.find();
@@ -45,10 +43,6 @@ app.use("/hotel-details", hotelDetailsRoutes);
  
 //  Hotel booking router for selected hotel
 app.use("/booking", bookingRoutes); 
-
-
-// Router to show booked hotels
-// app.use("/bookingdetails", bookingInfoRoutes);
 
 //my booking route
 app.use('/mybookings',myBookingRoutes)
