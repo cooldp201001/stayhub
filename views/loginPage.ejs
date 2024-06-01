@@ -99,16 +99,21 @@
           }
         }
       )
+      .then(response =>{
+        return response.json()
+      })
         .then(response => {
+          console.log(response, "response message");
           if (response.status == 200) {
 
             // User login successful
             // Clear any error states
             clearErrorStates();
             //home page after sucessfull login
+              //  return res.
             location.assign('/')
             // console.log('User login successful');
-            location.redirect
+            
           } else if (response.status == 404) {
             // Email not registered
             // Clear password field and show error for email
@@ -126,6 +131,7 @@
           } else {
             console.log('Error in login:', response.status);
           }
+
         })
         .catch(error => {
           console.log('Error in submitting the Form', error);

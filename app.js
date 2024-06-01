@@ -27,9 +27,13 @@ app.get("/", (req, res) => {
 });
 // Home routes
 app.get("/home", async (req, res) => {
+
   const hotelsInfo = await HotelsCollection.find();
   //renering all hotels in homepage
-  res.render("homePage", { hotelsInfo });
+  res.render("homePage", { hotelsInfo:hotelsInfo,
+     user: req.user ? { isLoggedIn: true, name: req.user._id } : { isLoggedIn: false } });
+     console.log(req.user);
+  
 });
 
 // Register router
@@ -42,12 +46,11 @@ app.use('/login',loginRoutes)
 app.use("/hotel-details", hotelDetailsRoutes);
  
 //  Hotel booking router for selected hotel
-app.use("/booking", bookingRoutes); 
+// middleware to validate user before showing the booking list
+app.use("/booking",authMiddleware, bookingRoutes); 
 
 //my booking route
-app.use('/mybookings',myBookingRoutes)
-
-
+app.use('/mybookings',authMiddleware,myBookingRoutes)
 app.listen(PORT, () => {
   console.log(`Server started \n http://localhost:${PORT}`);
 });

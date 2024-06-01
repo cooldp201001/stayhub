@@ -20,7 +20,10 @@ const userLoginRequest =  async (req,res) => {
                 // Passwords match, user authenticated
                 const token= createToken (foundUser._id)
                 res.cookie('jwt',token)
-                res.status(200).json({ message: "User login successful" });        
+                                                    
+                res.status(200).json(foundUser);
+                // console.log(req.user);
+                // res.status(200).json({ message: "User login successful" });        
             } else {
                 // Passwords don't match, send error response
                 res.status(401).json({ error: "Incorrect password" });
