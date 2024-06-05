@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cookieParser = require("cookie-parser")
+const cors = require('cors')
 const  authMiddleware = require('./middleware/authMiddleware');
+const showLoginUser = require("./middleware/showLoginUserMiddleware")
 //hotels database collection
 const HotelsCollection = require("./models/hotelSchema");
 const PORT = 1000;
@@ -21,18 +23,20 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors())
 
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
 // Home routes
-app.get("/home", async (req, res) => {
+WORKING:
+app.get("/home",showLoginUser, async (req, res) => {
 
   const hotelsInfo = await HotelsCollection.find();
   //renering all hotels in homepage
+  // console.log(res.locals.user);
   res.render("homePage", { hotelsInfo:hotelsInfo,
-     user: req.user ? { isLoggedIn: true, name: req.user._id } : { isLoggedIn: false } });
-     console.log(req.user);
+     user: res.locals.user});
   
 });
 

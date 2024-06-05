@@ -82,7 +82,7 @@
     const loginEmail = document.getElementById('loginEmail');
     const loginPassword = document.getElementById('loginPassword')
     // Login form submit event istner
-    loginForm.onsubmit = (event) => {
+    loginForm.onsubmit = async(event) => {
       event.preventDefault()
       const loginFormData = new FormData(loginForm)
       const loginUserInfoObj = {
@@ -90,53 +90,43 @@
         password: loginFormData.get('password')
       }
       // console.log(JSON.stringify(loginUserInfoObj))
-      fetch('/login',
-        {
-          method: 'POST',
-          body: JSON.stringify(loginUserInfoObj),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      .then(response =>{
-        return response.json()
-      })
-        .then(response => {
-          console.log(response, "response message");
-          if (response.status == 200) {
+   
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      body: JSON.stringify(loginUserInfoObj),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-            // User login successful
-            // Clear any error states
-            clearErrorStates();
-            //home page after sucessfull login
-              //  return res.
-            location.assign('/')
-            // console.log('User login successful');
-            
-          } else if (response.status == 404) {
-            // Email not registered
-            // Clear password field and show error for email
-            clearErrorStates();
-            loginEmail.classList.add('is-invalid');
-            emailRegisterAlertSpan.style.display = "inline";
-            emailLabel.classList.add("text-danger");
-          } else if (response.status == 401) {
-            // Incorrect password
-            // Show error for password
-            clearErrorStates();
-            loginPassword.classList.add('is-invalid');
-            passwordAlertSpan.style.display = "inline";
-            passwordLabel.classList.add("text-danger");
-          } else {
-            console.log('Error in login:', response.status);
-          }
+    const responseData = await response.json();
 
-        })
-        .catch(error => {
-          console.log('Error in submitting the Form', error);
-        });
-    };
+    if (response.status === 200) {
+      // User login successful
+      // console.log(responseData, "response message");
+      clearErrorStates();
+      location.assign('/home');
+    } else if (response.status === 404) {
+      // Email not registered
+      clearErrorStates();
+      loginEmail.classList.add('is-invalid');
+      emailRegisterAlertSpan.style.display = "inline";
+      emailLabel.classList.add("text-danger");
+    } else if (response.status === 401) {
+      // Incorrect password
+      clearErrorStates();
+      loginPassword.classList.add('is-invalid');
+      passwordAlertSpan.style.display = "inline";
+      passwordLabel.classList.add("text-danger");
+    } else {
+      console.log('Error in login:', responseData);
+    }
+  } catch (error) {
+    console.log('Error in submitting the Form', error);
+  }
+}
+    
 
     function clearErrorStates() {
       loginEmail.classList.remove('is-invalid');
