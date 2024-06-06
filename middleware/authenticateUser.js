@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const newUser = require('../models/newUser'); // Adjust the path to your User model
 
-const showLoginUser = async (req, res, next) => {
+const authenticateUser = async (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
         try {
@@ -11,12 +11,17 @@ const showLoginUser = async (req, res, next) => {
             // console.log(foundUser);
             if (foundUser) {
                 res.locals.user = foundUser; // Store user data in res.locals
+            }else {
+                res.locals.user = null;
+              }
+            } catch (err) {
+              console.error('Error verifying token:', err);
+              res.locals.user = null;
             }
-        } catch (err) {
-        console.log('Error verifying token:', err);
-        } 
-    }
+          } else {
+            res.locals.user = null;
+          }
     next();
 };
 
-module.exports = showLoginUser;
+module.exports = authenticateUser;

@@ -3,8 +3,7 @@ const app = express();
 const path = require("path");
 const cookieParser = require("cookie-parser")
 const cors = require('cors')
-const  authMiddleware = require('./middleware/authMiddleware');
-const showLoginUser = require("./middleware/showLoginUserMiddleware")
+
 //hotels database collection
 const HotelsCollection = require("./models/hotelSchema");
 const PORT = 1000;
@@ -15,7 +14,8 @@ const bookingRoutes = require("./Routes/bookingRoutes");
 const myBookingRoutes = require('./Routes/myBookingRoutes')
 const registerRoutes = require('./Routes/registerRoutes')
 const loginRoutes = require('./Routes/loginRoutes')
-
+const logoutRoutes = require('./Routes/logoutRoutes')
+const profileRoutes = require('./Routes/userProfileRoutes')
 //Middlewares
 app.set("view engine", "ejs");
 app.use(express.static('public'))
@@ -25,12 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
 
+// Defined middlewares
+const  authMiddleware = require('./middleware/authMiddleware');
+const authenticateUser = require("./middleware/authenticateUser")
+
+
+
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
 // Home routes
-WORKING:
-app.get("/home",showLoginUser, async (req, res) => {
+
+app.get("/home",authenticateUser, async (req, res) => {
 
   const hotelsInfo = await HotelsCollection.find();
   //renering all hotels in homepage
@@ -46,6 +52,10 @@ app.use('/register',registerRoutes)
 // Login router
 app.use('/login',loginRoutes)
 
+// WORKING:
+// Logout router
+app.use ('/logout',logoutRoutes)
+
 // Router for showing specific hotel details
 app.use("/hotel-details", hotelDetailsRoutes);
  
@@ -55,6 +65,11 @@ app.use("/booking",authMiddleware, bookingRoutes);
 
 //my booking route
 app.use('/mybookings',authMiddleware,myBookingRoutes)
+
+app.use('/profile',authenticateUser, profileRoutes);
+
+
+
 app.listen(PORT, () => {
   console.log(`Server started \n http://localhost:${PORT}`);
 });
