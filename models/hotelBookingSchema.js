@@ -10,6 +10,10 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  email:{
+    type:String,
+    require:true
+  },
   roomType: {
     type: String,
     required: true
@@ -19,11 +23,11 @@ const bookingSchema = new mongoose.Schema({
     required: true
   },
   checkInDate: {
-    type: Date,
+    type: String,
     required: true
   },
   checkOutDate: {
-    type: Date,
+    type: String,
     required: true
   },
   hotelName:{

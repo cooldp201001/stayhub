@@ -10,9 +10,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS for styling -->
     <style>
-        body {
-            padding: 20px;
-        }
+      
 
         .booking-card {
             margin-bottom: 20px;
@@ -33,10 +31,10 @@
 </head>
 
 <body>
+    <%- include('partials/navbar') %>
     <h1 class="mb-4">My Bookings</h1>
-
     <div class="row">
-        <% mybookings.forEach(booking => { %>
+        <% myBookings.forEach(booking => { %>
             <div class="col-md-6">
                 <div class="card booking-card">
                     <div class="card-body">
