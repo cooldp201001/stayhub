@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  <%- include('partials/navbar') %>
   <div class="container mt-5">
     <h1>Hotel Booking</h1>
 
@@ -20,7 +21,7 @@
       <div class="card mt-3">
         <div class="card-body">
           <h5 class="card-title">
-
+      
             <%= hotel.HotelName %>
           </h5>
           <p class="card-text">
@@ -50,6 +51,8 @@
           <label for="mobileNumber" class="form-label">Mobile Number:</label>
           <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required />
         </div>
+         <!-- email acessing from user object to store booking database so it can access by email id -->
+          <input type="email" name="email" hidden  value= "<%= user.email %>">
       </div>
 
       <!-- Room Type Selection -->
@@ -96,6 +99,28 @@
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkInDateInput = document.getElementById('checkInDate');
+    const checkOutDateInput = document.getElementById('checkOutDate');
+
+    function validateDates() {
+      const checkInDate = new Date(checkInDateInput.value);
+      const checkOutDate = new Date(checkOutDateInput.value);
+
+      if (checkOutDate <= checkInDate) {
+        checkOutDateInput.setCustomValidity('Check-out date must be after check-in date.');
+      } else {
+        checkOutDateInput.setCustomValidity('');
+      }
+    }
+
+    checkInDateInput.addEventListener('change', validateDates);
+    checkOutDateInput.addEventListener('change', validateDates);
+  });
+
+
     function updateGuestCountLimits() {
       var roomTypeSelect = document.getElementById("roomType");
       var guestCountInput = document.getElementById("guestCount");

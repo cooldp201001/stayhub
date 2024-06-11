@@ -37,10 +37,7 @@ app.get("/", (req, res) => {
 // Home routes
 
 app.get("/home",authenticateUser, async (req, res) => {
-
   const hotelsInfo = await HotelsCollection.find();
-  //renering all hotels in homepage
-  // console.log(res.locals.user);
   res.render("homePage", { hotelsInfo:hotelsInfo,
      user: res.locals.user});
   
@@ -52,19 +49,20 @@ app.use('/register',registerRoutes)
 // Login router
 app.use('/login',loginRoutes)
 
-// WORKING:
+
 // Logout router
 app.use ('/logout',logoutRoutes)
 
+// WORKING:
 // Router for showing specific hotel details
-app.use("/hotel-details", hotelDetailsRoutes);
+app.use("/hotel-details",authenticateUser, hotelDetailsRoutes);
  
 //  Hotel booking router for selected hotel
 // middleware to validate user before showing the booking list
-app.use("/booking",authMiddleware, bookingRoutes); 
+app.use("/booking",authenticateUser, bookingRoutes); 
 
 //my booking route
-app.use('/mybookings',authMiddleware,myBookingRoutes)
+app.use('/mybookings',authenticateUser,myBookingRoutes)
 
 app.use('/profile',authenticateUser, profileRoutes);
 
