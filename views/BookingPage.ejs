@@ -52,7 +52,7 @@
           <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required />
         </div>
          <!-- email acessing from user object to store booking database so it can access by email id -->
-          <input type="email" name="email" hidden  value= "<%= user.email %>">
+          <input type="email" name="email" hidden  value= "<%= user==null ?'':user.email %>">
       </div>
 
       <!-- Room Type Selection -->
@@ -99,27 +99,30 @@
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-
- 
   document.addEventListener('DOMContentLoaded', function() {
-    const checkInDateInput = document.getElementById('checkInDate');
-    const checkOutDateInput = document.getElementById('checkOutDate');
+      const checkInDateInput = document.getElementById('checkInDate');
+      const checkOutDateInput = document.getElementById('checkOutDate');
 
-    function validateDates() {
-      const checkInDate = new Date(checkInDateInput.value);
-      const checkOutDate = new Date(checkOutDateInput.value);
+      checkInDateInput.addEventListener('change', function() {
+        const checkInDate = new Date(checkInDateInput.value);
+        checkOutDateInput.min = new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        validateDates();
+      });
 
-      if (checkOutDate <= checkInDate) {
-        checkOutDateInput.setCustomValidity('Check-out date must be after check-in date.');
-      } else {
-        checkOutDateInput.setCustomValidity('');
+      checkOutDateInput.addEventListener('change', validateDates);
+
+      function validateDates() {
+        const checkInDate = new Date(checkInDateInput.value);
+        const checkOutDate = new Date(checkOutDateInput.value);
+
+        if (checkOutDate <= checkInDate) {
+          checkOutDateInput.setCustomValidity('Check-out date must be after check-in date.');
+        } else {
+          checkOutDateInput.setCustomValidity('');
+        }
       }
-    }
-
-    checkInDateInput.addEventListener('change', validateDates);
-    checkOutDateInput.addEventListener('change', validateDates);
-  });
-
+    });
+ 
 
     function updateGuestCountLimits() {
       var roomTypeSelect = document.getElementById("roomType");

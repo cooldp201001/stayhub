@@ -54,13 +54,17 @@ app.use('/login',loginRoutes)
 app.use ('/logout',logoutRoutes)
 
 // WORKING:
+
+
+
 // Router for showing specific hotel details
 app.use("/hotel-details",authenticateUser, hotelDetailsRoutes);
- 
+
 //  Hotel booking router for selected hotel
-// middleware to validate user before showing the booking list
 app.use("/booking",authenticateUser, bookingRoutes); 
 
+//middleware for protected routes
+app.use(authMiddleware);
 //my booking route
 app.use('/mybookings',authenticateUser,myBookingRoutes)
 
