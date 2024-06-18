@@ -52,7 +52,7 @@
           <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required />
         </div>
          <!-- email acessing from user object to store booking database so it can access by email id -->
-          <input type="email" name="email" hidden  value= "<%= user.email %>">
+          <input type="email" name="email" hidden  value= "<%= user==null ?'':user.email %>">
       </div>
 
       <!-- Room Type Selection -->
@@ -89,7 +89,9 @@
             <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required />
           </div>
         </div>
-  
+          
+        <!-- hidden today's date input element -->
+        <input type="date" id="bookingDate" name="bookingDate" hidden>
 
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary">Book Now</button>
@@ -100,26 +102,42 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
 
- 
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // January is 0!
+  let dd = today.getDate();
+
+  // String padding for single digit months/days
+  mm = mm < 10 ? '0' + mm : mm;
+  dd = dd < 10 ? '0' + dd : dd;
+
+  document.getElementById("bookingDate").value = yyyy + '-' + mm + '-' + dd;
+
   document.addEventListener('DOMContentLoaded', function() {
-    const checkInDateInput = document.getElementById('checkInDate');
-    const checkOutDateInput = document.getElementById('checkOutDate');
+      const checkInDateInput = document.getElementById('checkInDate');
+      const checkOutDateInput = document.getElementById('checkOutDate');
 
-    function validateDates() {
-      const checkInDate = new Date(checkInDateInput.value);
-      const checkOutDate = new Date(checkOutDateInput.value);
+      checkInDateInput.addEventListener('change', function() {
+        const checkInDate = new Date(checkInDateInput.value);
+        checkOutDateInput.min = new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        validateDates();
+      });
 
-      if (checkOutDate <= checkInDate) {
-        checkOutDateInput.setCustomValidity('Check-out date must be after check-in date.');
-      } else {
-        checkOutDateInput.setCustomValidity('');
+      checkOutDateInput.addEventListener('change', validateDates);
+
+      function validateDates() {
+        const checkInDate = new Date(checkInDateInput.value);
+        const checkOutDate = new Date(checkOutDateInput.value);
+
+        if (checkOutDate <= checkInDate) {
+          checkOutDateInput.setCustomValidity('Check-out date must be after check-in date.');
+        } else {
+          checkOutDateInput.setCustomValidity('');
+        }
       }
-    }
-
-    checkInDateInput.addEventListener('change', validateDates);
-    checkOutDateInput.addEventListener('change', validateDates);
-  });
-
+    });
+ 
 
     function updateGuestCountLimits() {
       var roomTypeSelect = document.getElementById("roomType");

@@ -25,7 +25,8 @@ const bookingFormSubmission =  async (req,res)=>{
 
           const savedBookingHotelDetails = await bookingHotelDetails.save()
         //   console.log(savedBookingHotelDetails);
-          res.status(200).send("booking sucessfull")
+        //   res.status(200).send("booking sucessfull")
+        res.redirect('/mybookings')
     }
     catch(error){
         res.status(201).json({message:"Error in booking"})
@@ -33,3 +34,5 @@ const bookingFormSubmission =  async (req,res)=>{
     }
     }
     module.exports = {bookingController,bookingFormSubmission};
+
+    

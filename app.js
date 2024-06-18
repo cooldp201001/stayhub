@@ -3,7 +3,8 @@ const app = express();
 const path = require("path");
 const cookieParser = require("cookie-parser")
 const cors = require('cors')
-
+const flash = require('connect-flash');
+const session = require('express-session')
 //hotels database collection
 const HotelsCollection = require("./models/hotelSchema");
 const PORT = 1000;
@@ -29,7 +30,23 @@ app.use(cors())
 const  authMiddleware = require('./middleware/authMiddleware');
 const authenticateUser = require("./middleware/authenticateUser")
 
+// Express session middleware
+app.use(session({
+  secret: 'yourSecretKey',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 
+// Connect flash middleware
+app.use(flash());
+
+// Set up locals to make flash messages accessible in your views
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  next();
+});
 
 app.get("/", (req, res) => {
   res.redirect("/home");
@@ -49,25 +66,25 @@ app.use('/register',registerRoutes)
 // Login router
 app.use('/login',loginRoutes)
 
-
-// Logout router
+// Logout routerb
 app.use ('/logout',logoutRoutes)
 
 // WORKING:
+
 // Router for showing specific hotel details
 app.use("/hotel-details",authenticateUser, hotelDetailsRoutes);
- 
+
 //  Hotel booking router for selected hotel
-// middleware to validate user before showing the booking list
 app.use("/booking",authenticateUser, bookingRoutes); 
+
+//middleware for protected routes
+app.use(authMiddleware);
 
 //my booking route
 app.use('/mybookings',authenticateUser,myBookingRoutes)
 
 app.use('/profile',authenticateUser, profileRoutes);
 
-
-
 app.listen(PORT, () => {
-  console.log(`Server started \n http://localhost:${PORT}`);
+  console.log(`Server started at http://localhost:${PORT}`);
 });

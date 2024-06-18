@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 
 //Rendering the user login page
 const showLoginPage = (req,res)=>{
-    res.render('loginPage' )
+//   console.log(req.flash);
+    res.render('loginPage')
 }
 
 // Handling the user login request
