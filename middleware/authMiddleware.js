@@ -1,44 +1,29 @@
 const jwt = require('jsonwebtoken');
 
-const requireAuth = (req,res,next)=>{
+const authMiddleware = (req,res,next)=>{
 
-    const token = req.cookies.jwt;
+    const token = req.cookies.jwt; 
 
-    if(token){
+    if(!token){
 
-  jwt.verify(token,process.env.SECRET_KEY,(err,decodedToken)=>{
-            
-        // req.user = decodedToken;
-        // console.log(req.user);
-            if(err){
-                req.user =null
-                res.redirect('/login')
-            }
-            else{
-                next()
-            }
-        })
+        req.flash('error_msg', 'Please log in to view this resource');
+        req.user =null;
+       return res.redirect('/login')
     }
-    else{
-        // req.user = null
+
+    try{
+      const decodedToken =   jwt.verify(token,process.env.SECRET_KEY) 
+      req.user = decodedToken
+      next();
+    }
+  
+    catch(error){
+        req.flash('error_msg', 'Please log in to view this resource');
+        req.user = null
         res.redirect('/login')
     }
+
+
 }
 
-module.exports = requireAuth
-// / Middleware to check JWT token
-// const checkAuth = (req, res, next) => {
-//   const token = req.cookies.jwt;
-//   if (!token) {
-//     req.user = null;
-//     return next();
-//   }
-//   try {
-//     const decoded = jwt.verify(token, SECRET_KEY);
-//     req.user = decoded;
-//     next();
-//   } catch (error) {
-//     req.user = null;
-//     next();
-//   }
-// };
+module.exports = authMiddleware

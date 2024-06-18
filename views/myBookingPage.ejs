@@ -33,6 +33,11 @@
 <body>
     <%- include('partials/navbar') %>
     <h1 class="mb-4">My Bookings</h1>
+    <% if(myBookings.length == 0) {%>
+        <div class="alert alert-primary" role="alert">
+          No bookings yet.
+          </div>
+        <%}%>
     <div class="row">
         <% myBookings.forEach(booking => { %>
             <div class="col-md-6">
@@ -41,6 +46,7 @@
                         <h2><%= booking.hotelName %></h2>
                         <p><strong>Check-in Date:</strong> <span id="checkInDate_<%= booking._id %>"><%= booking.checkInDate %></span></p>
                         <p><strong>Check-out Date:</strong> <span id="checkOutDate_<%= booking._id %>"><%= booking.checkOutDate %></span></p>
+                        <p><strong>Booking Date:</strong> <span id="bookingDate_<%= booking._id %>"><%= booking.bookingDate %></span></p>
                         <!-- Add more details as needed -->
                     </div>
                 </div>

@@ -39,8 +39,8 @@ const bookingSchema = new mongoose.Schema({
     required:true
   },
   bookingDate: {
-    type: Date,
-    default: Date.now
+   type:String,
+   required:true
   }
 });
 

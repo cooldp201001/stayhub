@@ -89,7 +89,9 @@
             <input type="date" class="form-control" id="checkOutDate" name="checkOutDate" required />
           </div>
         </div>
-  
+          
+        <!-- hidden today's date input element -->
+        <input type="date" id="bookingDate" name="bookingDate" hidden>
 
       <!-- Submit Button -->
       <button type="submit" class="btn btn-primary">Book Now</button>
@@ -99,6 +101,19 @@
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+
+
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // January is 0!
+  let dd = today.getDate();
+
+  // String padding for single digit months/days
+  mm = mm < 10 ? '0' + mm : mm;
+  dd = dd < 10 ? '0' + dd : dd;
+
+  document.getElementById("bookingDate").value = yyyy + '-' + mm + '-' + dd;
+
   document.addEventListener('DOMContentLoaded', function() {
       const checkInDateInput = document.getElementById('checkInDate');
       const checkOutDateInput = document.getElementById('checkOutDate');
