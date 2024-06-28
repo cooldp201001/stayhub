@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Hotels</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Search Hotels</h1>
+    <form id="searchForm">
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <select class="form-control" id="location" name="location">
+          <option value="">Select location</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="hotel">Hotel:</label>
+        <select class="form-control" id="hotel" name="hotel">
+          <option value="">Select hotel</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div id="results" class="mt-5">
+      <!-- Search results will be displayed here -->
+    </div>
+  </div>
+
+  <!-- Add Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Fetch locations and populate the location select element
+      fetch('search-hotels/locations')
+        .then(response => response.json())
+        .then(locations => {
+          const locationSelect = document.getElementById('location');
+          locations.forEach(location => {
+            const option = document.createElement('option');
+            option.value = location;
+            option.textContent = location;
+            locationSelect.appendChild(option);
+          });
+        });
+      });
+      // Fetch hotels based on the selected location and populate the hotel select element
+      document.getElementById('location').addEventListener('change', function() {
+        const selectedLocation = this.value;
+        const hotelSelect = document.getElementById('hotel');
+        hotelSelect.innerHTML = '<option value="">Select hotel</option>';
+        if (selectedLocation) {
+          fetch(`search-hotels/locations/${selectedLocation}`)
+            .then(response => response.json())
+            .then(hotels => {
+              hotels.forEach(hotel => {
+                const option = document.createElement('option');
+                option.value = hotel.HotelName;
+                option.textContent = hotel.HotelName;
+                hotelSelect.appendChild(option);
+              });
+            });
+        }
+      });
+
+      // Handle form submission
+      document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const queryParams = new URLSearchParams(formData).toString();
+        fetch('/search-hotels/locations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: queryParams
+        })
+        .then(response => response.json())
+        .then(hotels => {
+          const resultsDiv = document.getElementById('results');
+          resultsDiv.innerHTML = '';
+          hotels.forEach(hotel => {
+            const card = document.createElement('div');
+            card.classList.add('card', 'mb-3');
+            card.innerHTML = `
+              <div class="card-body">
+                <h5 class="card-title">${hotel.HotelName}</h5>
+                <p class="card-text">${hotel.Description}</p>
+                <p class="card-text"><strong>Location:</strong> ${hotel.Address.StreetAddress} ${hotel.Address.City } ${hotel.Address.Postalcode} ${hotel.Address.Country}</p>
+    <a type="button" href="/hotel-details/${hotel.HotelName}" class="btn btn-primary">more info</a>
+
+              </div>
+            `;
+            resultsDiv.appendChild(card);
+          });
+        });
+      });
+  
+  </script>
+</body>
+</html>

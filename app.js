@@ -12,11 +12,14 @@ const PORT = 1000;
 //routes
 const hotelDetailsRoutes= require("./Routes/hotelDetailsRoutes");
 const bookingRoutes = require("./Routes/bookingRoutes");
-const myBookingRoutes = require('./Routes/myBookingRoutes')
-const registerRoutes = require('./Routes/registerRoutes')
-const loginRoutes = require('./Routes/loginRoutes')
-const logoutRoutes = require('./Routes/logoutRoutes')
-const profileRoutes = require('./Routes/userProfileRoutes')
+const myBookingRoutes = require('./Routes/myBookingRoutes');
+const registerRoutes = require('./Routes/registerRoutes');
+const loginRoutes = require('./Routes/loginRoutes');
+const logoutRoutes = require('./Routes/logoutRoutes');
+const profileRoutes = require('./Routes/userProfileRoutes');
+const searchHotelsRoutes  = require('./Routes/searchHotelsRoutes');
+const hotelsByCity = require('./Routes/hotelsByCity')
+const locationsRoutes = require('./Routes/locationsRoutes')
 //Middlewares
 app.set("view engine", "ejs");
 app.use(express.static('public'))
@@ -81,9 +84,15 @@ app.use("/booking",authenticateUser, bookingRoutes);
 app.use(authMiddleware);
 
 //my booking route
-app.use('/mybookings',authenticateUser,myBookingRoutes)
+app.use('/mybookings',authenticateUser,myBookingRoutes);
 
 app.use('/profile',authenticateUser, profileRoutes);
+
+// Search hotel
+app.use('/search-hotels',authenticateUser,searchHotelsRoutes);
+
+// app.use('/locations',locationsRoutes)
+// app.use('/hotels',hotelsByCity)
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
