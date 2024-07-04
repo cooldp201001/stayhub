@@ -18,8 +18,7 @@ const loginRoutes = require('./Routes/loginRoutes');
 const logoutRoutes = require('./Routes/logoutRoutes');
 const profileRoutes = require('./Routes/userProfileRoutes');
 const searchHotelsRoutes  = require('./Routes/searchHotelsRoutes');
-const hotelsByCity = require('./Routes/hotelsByCity')
-const locationsRoutes = require('./Routes/locationsRoutes')
+
 //Middlewares
 app.set("view engine", "ejs");
 app.use(express.static('public'))
@@ -72,8 +71,6 @@ app.use('/login',loginRoutes)
 // Logout routerb
 app.use ('/logout',logoutRoutes)
 
-// WORKING:
-
 // Router for showing specific hotel details
 app.use("/hotel-details",authenticateUser, hotelDetailsRoutes);
 
@@ -87,6 +84,11 @@ app.use(authMiddleware);
 app.use('/mybookings',authenticateUser,myBookingRoutes);
 
 app.use('/profile',authenticateUser, profileRoutes);
+
+//about us route
+app.use('/aboutUs',authenticateUser,(req,res)=>{
+  res.render('aboutUsPage');
+})
 
 // Search hotel
 app.use('/search-hotels',authenticateUser,searchHotelsRoutes);
