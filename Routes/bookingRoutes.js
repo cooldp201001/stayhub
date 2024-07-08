@@ -1,8 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const {bookingController,bookingFormSubmission} = require('../controllers/bookingControllers')
-const authMiddleware= require('../middleware/authMiddleware')
-const HotelBookingCollection = require('../models/hotelBookingSchema')
+const {authMiddleware}= require('../middleware/authMiddleware')
 
 
 router.get('/:hotelName',bookingController);

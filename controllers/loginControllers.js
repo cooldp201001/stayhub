@@ -1,15 +1,17 @@
-const UserDatabase = require('../models/newUser');
+const UserDatabase = require('../models/registerUsers');
+const adminDatabase  = require('../models/adminSchema')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 
 //Rendering the user login page
 const showLoginPage = (req,res)=>{
 //   console.log(req.flash);
-    res.render('loginPage')
+    res.render('loginPage');
 }
 
 // Handling the user login request
-const userLoginRequest =  async (req,res) => {
+const loginRequest =  async (req,res) => {
+
     try {
         const loginUserInfo = req.body;
         const foundUser = await UserDatabase.findOne({ 'email': loginUserInfo.email });
@@ -19,7 +21,7 @@ const userLoginRequest =  async (req,res) => {
             const passwordMatch = await bcrypt.compare(loginUserInfo.password, foundUser.password);
             if (passwordMatch) {
                 // Passwords match, user authenticated
-                const token= createToken (foundUser._id)
+                const token= createToken (foundUser._id, foundUser.role)
                 res.cookie('jwt',token)
                                                     
                 res.status(200).json({ message: "User login successful" });        
@@ -29,10 +31,34 @@ const userLoginRequest =  async (req,res) => {
                 // Passwords don't match, send error response
                 res.status(401).json({ error: "Incorrect password" });
             }
-        } else {
-            // User not register in database
+        } 
+        else {
+          //check login user is admin or not
+       const foundAdminUser = await adminDatabase.findOne({email:loginUserInfo.email});
+       if(foundAdminUser){
+         const passwordMatched = await bcrypt.compare(loginUserInfo.password,foundAdminUser.password);
+         
+         if(passwordMatched){
+            //Passwords match, admin authenticated
+            const token = createToken(foundAdminUser._id,foundAdminUser.role);
+            res.cookie('jwt',token);
+            res.status(200).json({message:"admin login successfull"})
+            // res.redirect('/admin');
+            // console.log(res.);
+
+         }
+         else{
+            res.status(401).json({error:"Incorrect password"})
+         }
+
+       }
+           
+       else{
+        // User not register in database
             res.status(404).json({ error: "User not Register" });
+       }
         }
+
     } catch (error) {
         // Error handling
         console.log('Error logging in user:', error);
@@ -40,8 +66,8 @@ const userLoginRequest =  async (req,res) => {
     }
 }
 //Jwt token creation function
-const createToken = (id)=>{
-     return jwt.sign({id},process.env.SECRET_KEY,{expiresIn: 24 *60* 60 } )
+const createToken = (id,role)=>{
+     return jwt.sign({id,role},process.env.SECRET_KEY,{expiresIn: 24 *60* 60 } )
 }
 
-module.exports= {showLoginPage, userLoginRequest}
+module.exports= {showLoginPage,loginRequest}

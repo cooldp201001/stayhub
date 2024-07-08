@@ -18,7 +18,7 @@ const loginRoutes = require('./Routes/loginRoutes');
 const logoutRoutes = require('./Routes/logoutRoutes');
 const profileRoutes = require('./Routes/userProfileRoutes');
 const searchHotelsRoutes  = require('./Routes/searchHotelsRoutes');
-
+const adminRoutes  =require('./Routes/adminRoutes');
 //Middlewares
 app.set("view engine", "ejs");
 app.use(express.static('public'))
@@ -29,8 +29,8 @@ app.use(express.json());
 app.use(cors())
 
 // Defined middlewares
-const  authMiddleware = require('./middleware/authMiddleware');
-const authenticateUser = require("./middleware/authenticateUser")
+const  {authMiddleware,isAdminMiddleware} = require('./middleware/authMiddleware');
+const authenticateUser= require("./middleware/authenticateUser")
 
 // Express session middleware
 app.use(session({
@@ -90,11 +90,10 @@ app.use('/aboutUs',authenticateUser,(req,res)=>{
   res.render('aboutUsPage');
 })
 
+app.use('/admin-dashboard',isAdminMiddleware,adminRoutes)
 // Search hotel
 app.use('/search-hotels',authenticateUser,searchHotelsRoutes);
 
-// app.use('/locations',locationsRoutes)
-// app.use('/hotels',hotelsByCity)
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);

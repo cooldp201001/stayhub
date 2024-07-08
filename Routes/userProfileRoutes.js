@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const newUser = require('../models/newUser'); // Adjust the path as needed
+const newUser = require('../models/registerUsers'); // Adjust the path as needed
 // const { checkAuthenticated } = require('../middlewares/authenticateUser'); // Adjust the path as needed
 
 // Get profile page

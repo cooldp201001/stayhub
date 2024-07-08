@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {userRegister, showRegisterPage} = require('../controllers/userRegisterControllers')
+const {userRegister, showRegisterPage} = require('../controllers/registerControllers')
 
 //Router for rendering Register Page
 router.get("/",showRegisterPage);

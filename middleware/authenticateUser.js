@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
-const newUser = require('../models/newUser'); // Adjust the path to your User model
-
+const usersColllection = require('../models/registerUsers');
+const adminCollection = require('../models/adminSchema')
 const authenticateUser = async (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
         try {
             const decoded = jwt.verify(token,process.env.SECRET_KEY); 
-            const foundUser = await newUser.findById(decoded.id).select('-password');
+            const foundUser = await usersColllection.findById(decoded.id).select('-password') || await adminCollection.findById(decoded.id).select('-password');;
            
             // console.log(foundUser);
             if (foundUser) {
@@ -23,5 +23,4 @@ const authenticateUser = async (req, res, next) => {
           }
     next();
 };
-
-module.exports = authenticateUser;
+module.exports =authenticateUser;

@@ -100,11 +100,18 @@
 
     const responseData = await response.json();
 
+    //sucessfull login 
     if (response.status === 200) {
-      // User login successful
-      // console.log(responseData, "response message");
+
+      //check user is admin or not
+       let isAdmin = String(responseData.message);
+        if(isAdmin.includes('admin'))
+        {
+         return location.assign('/admin-dashboard');
+        }
       clearErrorStates();
-      location.assign('/home');
+      
+      location.assign('/home'); //After all ok route to the home page
     } else if (response.status === 404) {
       // Email not registered
       clearErrorStates();

@@ -2,6 +2,11 @@ const mongoose = require('../config/db');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
+  usertype : {
+    type: String,
+    required: true,
+   default :"admin"
+  },
   firstName: {
     type: String,
     required: true
@@ -21,6 +26,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLength:2
   },
+  role: {
+    type :String,
+    default :"user"
+  }
 });
 
 // Create a model based on the schema
