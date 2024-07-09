@@ -105,9 +105,10 @@
 
       //check user is admin or not
        let isAdmin = String(responseData.message);
+      
         if(isAdmin.includes('admin'))
         {
-         return location.assign('/admin-dashboard');
+         return location.assign('/admin');  // routing to the admin routes
         }
       clearErrorStates();
       

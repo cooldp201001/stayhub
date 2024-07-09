@@ -1,0 +1,48 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('../partials/adminNavbar') %>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header">Users</div>
+          <div class="card-body">
+            <h5 class="card-title"><%= userCount %> Users</h5>
+            <a href="/admin/users" class="btn btn-light">Manage Users</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header">Hotels</div>
+          <div class="card-body">
+            <h5 class="card-title"><%= hotelCount %> Hotels</h5>
+            <a href="/admin/hotels" class="btn btn-light">Manage Hotels</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+          <div class="card-header">Bookings</div>
+          <div class="card-body">
+            <h5 class="card-title"><%= bookingCount %> Bookings</h5>
+            <a href="/admin/bookings" class="btn btn-light">Manage Bookings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

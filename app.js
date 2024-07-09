@@ -90,10 +90,11 @@ app.use('/aboutUs',authenticateUser,(req,res)=>{
   res.render('aboutUsPage');
 })
 
-app.use('/admin-dashboard',isAdminMiddleware,adminRoutes)
 // Search hotel
 app.use('/search-hotels',authenticateUser,searchHotelsRoutes);
 
+//Admin routes
+app.use('/admin',adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
