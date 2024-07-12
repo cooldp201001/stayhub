@@ -2,11 +2,6 @@ const mongoose = require('../config/db');
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
-  usertype : {
-    type: String,
-    required: true,
-   default :"admin"
-  },
   firstName: {
     type: String,
     required: true

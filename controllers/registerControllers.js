@@ -8,10 +8,10 @@ const showRegisterPage = (req, res) => {
   }
 
   
-  const userRegister = async (req, res, next) => {
+  const userRegister = async (req, res) => {
       try {
         const newUser = new usersDatabase(req.body);
-  
+
         // Generate a salt with 10 rounds
         const salt = await bcrypt.genSalt(10);
         // Hash the password with the generated salt
@@ -29,6 +29,7 @@ const showRegisterPage = (req, res) => {
         res.redirect('/')
 
       } catch (err) {
+        console.log(err);
         // Check if the error is a duplicate key error (code 11000) for the email field
         if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
           // Duplicate email ID found, send response indicating the email ID is already registered
