@@ -24,7 +24,7 @@
                   </p>
 
                   <form class="mx-1 mx-md-4 registerForm" enctype="application/x-www-form-urlencoded" autocomplete="on">
-                    <div class="d-flex flex-row align-items-center mb-4">
+                    <!-- <div class="d-flex flex-row align-items-center mb-4">
                       <i class="mb-4 me-1 fas fa-user fa-lg fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
                         <input type="text" id="firstName" class="form-control" style="width: 95%" name="firstName"
@@ -35,7 +35,17 @@
                         <input type="text" id="lastName" class="form-control" name="lastName" required />
                         <label class="form-label" for="lastName">Last Name</label>
                       </div>
+                    </div> -->
+                    <div class="d-flex flex-row align-items-center mb-4">
+                      <i class="mb-4 me-1 fas fa-user fa-lg fa-fw"></i>
+                      <div class="form-outline flex-fill mb-0">
+                        <input type="text" id="fullName" class="form-control" style="width: 95%" name="fullName"
+                          required />
+                        <label class="form-label" for="fullName">Full Name</label>
+                      </div>
                     </div>
+
+                      
 
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="mb-4 me-1 fas fa-envelope fa-lg fa-fw"></i>
@@ -130,8 +140,7 @@
         // console.log(registerForm);
         const formData = new FormData(registerForm);
         const userInfo = {
-          firstName: formData.get("firstName"),
-          lastName: formData.get("lastName"),
+          fullName: formData.get("fullName"),
           email: formData.get("email"),
           password: formData.get("password"),
         };
