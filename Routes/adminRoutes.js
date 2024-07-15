@@ -30,25 +30,33 @@ router.get('/dashboard', async (req, res) => {
 router.get('/users', async (req,res)=>{
 
     const users = await usersCollection.find();
-   res.render('adminPages/users',{ users})
+   res.render('adminPages/userManagePage',{ users})
 })
 
 
 // Add new user
 router.post('/users/add', async (req, res) => {
     try {
-      const { name, email, password,  } = req.body;
+      const { fullName, email, password,  } = req.body;
       const hashedPassword = await bcrypt.hash( password, 10 );
       const newUser = new usersCollection({
-        name,
+        fullName,
         email,
         password: hashedPassword,
       });
       await newUser.save();
-      res.redirect('/admin/users');
+      res.status(200).json({ message: 'User added successfully' });
+      // res.redirect('/admin/users');
     } catch (error) {
-        console.log(error);
-      res.status(500).json({ message:"Error in adding the user:" });
+
+         // Check if the error is a duplicate key error (code 11000) for the email field
+         if (error.code === 11000 && error.keyPattern && error.keyPattern.email) {
+          // Duplicate email ID found, send response indicating the email ID is already registered
+          res.status(400).json({ message: "Email ID is already registered" });
+        } else {
+          // Other errors, log the error and send a generic error response
+        res.status(500).json({ message:"Error in adding the user",error });
+        }
     }
   });
 

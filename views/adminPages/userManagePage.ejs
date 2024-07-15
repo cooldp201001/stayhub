@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+
+  <title>Users Management</title>
+</head>
+
+<body>
+  <%- include('../partials/adminNavbar') %>
+
+    <div class="container mt-5">
+      <!-- Add user section -->
+      <div>
+        <h1 class="text-center">Add User</h1>
+        <!-- Add User Form -->
+        <div class="card mb-5 w-75 mx-auto">
+          <div class="card-body">
+            <form id="addUserForm" >
+              <div class="form-group">
+                <label for="addFullName">Full Name</label>
+                <input type="text" class="form-control" id="addFullName" name="addFullName" required />
+              </div>
+              <div class="form-group">
+                <label id="addEmailLabel" for="addEmail">Email  <span class="invalid-feedback" style="display: none; font-size: 15px" name="emailAlertSpan"
+                  id="emailAlertSpan">is already register</span>
+                 </label>
+
+                <input type="addEmail" class="form-control" id="addEmail" name="addEmail" required />
+              </div>
+              <div class="form-group">
+                <label for="addPassword">Password</label>
+                <input type="password" class="form-control" id="addPassword" name="addPassword" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+            <div id="addUserNotification" class="mt-3"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete user section -->
+      <div>
+        <h1 class="text-center">Delete User</h1>
+        <div class="card mb-5 w-75 mx-auto">
+          <div class="card-body">
+            <form id="deleteUserForm" method="POST" action="/admin/users">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required placeholder="Enter email" />
+              </div>
+
+              <button type="submit" class="btn btn-primary">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <div>
+        <h2 class="text-center">Registered Users</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th style="width: 7%">S. No</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach((user,index)=> { %>
+              <tr>
+                <td class="w-auto">
+                  <%= index+1 %>
+                </td>
+                <td>
+                  <%= user.fullName %>
+                    <%= user.lastName %>
+                </td>
+                <td>
+                  <%= user.email %>
+                </td>
+              </tr>
+              <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</body>
+
+<script>
+  document.getElementById('addUserForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const addEmailInput = document.getElementById('addEmail');
+     const addEmailLabel  = document.getElementById('addEmailLabel');
+    const emailAlertSpan = document.getElementById('emailAlertSpan');
+
+      const formData = {
+        fullName: document.getElementById('addFullName').value,
+        email: document.getElementById('addEmail').value,
+        password: document.getElementById('addPassword').value,
+      };
+
+
+        //clear error messages
+         if(addEmailInput.classList.contains("is-invalid"))
+         {
+        addEmailLabel.classList.remove("text-danger");
+        emailAlertSpan.style.display="none";
+        addEmailInput.classList.remove("is-invalid");
+         }
+
+      try {
+        const response = await fetch('/admin/users/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+     
+        // User added sucessfully
+        if (response.status ==200) {
+            alert(`${result.message}`)
+            window.location.reload()
+          } else if(response.status == 400) {
+              addEmailLabel.classList.add("text-danger");
+              emailAlertSpan.style.display="inline";
+                addEmailInput.classList.add("is-invalid");
+
+        } else{
+            console.log(response.message);
+        }
+      } catch (error) {
+        console.log("An error occurred:",error);
+      }
+    });
+</script>
+</html>
