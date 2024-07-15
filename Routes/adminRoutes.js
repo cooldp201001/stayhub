@@ -35,7 +35,7 @@ router.get('/users', async (req,res)=>{
 
 
 // Add new user
-router.post('/users/add', async (req, res) => {
+router.post('/users/add-user', async (req, res) => {
     try {
       const { fullName, email, password,  } = req.body;
       const hashedPassword = await bcrypt.hash( password, 10 );
@@ -59,5 +59,23 @@ router.post('/users/add', async (req, res) => {
         }
     }
   });
+
+  //Delete User
+router.post('/users/delete-user', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await usersCollection.findOneAndDelete({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+        console.log('Error deleting user:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+} );
 
 module.exports = router;

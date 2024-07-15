@@ -24,12 +24,10 @@ const showRegisterPage = (req, res) => {
           const token =  createJWT(savedUser._id)
         res.cookie("Jwt",token,{httpOnly:true})
       
-        // res.json({ message: "User saved successfully In DB" });
         // After successfull register routing to the home page
         res.redirect('/')
 
       } catch (err) {
-        // console.log(err);
         // Check if the error is a duplicate key error (code 11000) for the email field
         if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
           // Duplicate email ID found, send response indicating the email ID is already registered
