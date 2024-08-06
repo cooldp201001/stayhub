@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Booking Management</title>
+</head>
+<body>
+  <%- include('../partials/adminNavbar') %>
+  <div class="container-fluid">
+      <!-- Add booking -->
+       <!-- Delete booking -->
+     <!-- Show bookings List-->
+     <h2 class="mt-5 text-center">Bookings List</h2>
+     <table class="table table-bordered">
+       <thead>
+         <tr>
+          <th style="width: 5%;">S. No</th>
+           <th>ID</th>
+           <th>User</th>
+           <th>Hotel</th>
+           <th>Location</th>
+           <th>Check-in Date</th>
+           <th>Check-out Date</th>
+           <th>Booking Date</th>
+           <th>Mobile No.</th>
+         </tr>
+       </thead>
+       <tbody>
+         <% bookings.forEach((booking,index) => { %>
+           <tr>
+             <td><%= index +1 %></td>
+             <td><%= booking._id %></td>
+             <td><%= booking.fullName %></td>
+             <td><%= booking.hotelName %></td>
+             <td><%= booking.location %></td>
+             <td><%= booking.checkInDate %></td>
+             <td><%= booking.checkOutDate %></td>
+             <td><%= booking.bookingDate %></td>
+             <td><%= booking.mobileNumber %></td>
+           </tr>
+         <% }) %>
+       </tbody>
+     </table>
+    </div>
+</body>
+</html> 

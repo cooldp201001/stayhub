@@ -1,4 +1,4 @@
-const UserDatabase = require('../models/registerUsers');
+const UserDatabase = require('../models/userSchema');
 const adminDatabase  = require('../models/adminSchema')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')

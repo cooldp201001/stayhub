@@ -18,7 +18,7 @@ const loginRoutes = require('./Routes/loginRoutes');
 const logoutRoutes = require('./Routes/logoutRoutes');
 const profileRoutes = require('./Routes/userProfileRoutes');
 const searchHotelsRoutes  = require('./Routes/searchHotelsRoutes');
-const adminRoutes  =require('./Routes/adminRoutes');
+const adminRoutes  =require('./Routes/AdminRoutes/adminRoutes');
 //Middlewares
 app.set("view engine", "ejs");
 app.use(express.static('public'))

@@ -1,6 +1,6 @@
 const hotelBookingDatabase = require('../models/hotelBookingSchema')
 const hotelDatabase = require('../models/hotelSchema')
-const userDatabase = require('../models/registerUsers')
+const userDatabase = require('../models/userSchema')
 
 const bookingController = async (req,res)=>{
     const hotelName = req.params.hotelName;

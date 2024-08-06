@@ -1,5 +1,5 @@
 
-const usersDatabase = require("../models/registerUsers");
+const usersDatabase = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const JWT = require('jsonwebtoken');
 

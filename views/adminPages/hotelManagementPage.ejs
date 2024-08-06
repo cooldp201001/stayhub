@@ -1,0 +1,48 @@
+<!-- Add Hotel -->
+<!-- Add room -->
+
+<!-- List of hotels -->
+<!-- S No. Hotel name  -->
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <title>Hotel Management</title>
+</head>
+<body>
+  
+ <%-  include('../partials/adminNavbar') %>
+    <!-- Hotels Section -->
+     <div class="container">
+       <table class="  mt-3 table table-bordered table-hover  ">
+         <caption style="caption-side: top;" > <h2 class="text-center">Hotels List</h2> </caption>
+      <thead  >
+        <tr>
+          <th style="width: 6%;">S. No</th>
+          <th>Hotel ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% hotels.forEach((hotel,index) => { %>
+          <tr>
+            <td><%= index+1 %></td>
+            <td><%= hotel._id %></td>
+            <td> <a href="hotels/add-room/<%= hotel.HotelName %>"> <%= hotel.HotelName %> </a> </td>
+            <td> <%= hotel.Category %></td>
+            <td><%= hotel.Address.StreetAddress %>, <%= hotel.Address.City %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+</div>
+
+</body>
+</html>
