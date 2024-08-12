@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser")
 const cors = require('cors')
 const flash = require('connect-flash');
 const session = require('express-session')
+const bodyParser = require('body-parser')
 //hotels database collection
 const HotelsCollection = require("./models/hotelSchema");
 const PORT = 1000;
@@ -27,6 +28,10 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Parse application/json
+app.use(bodyParser.json());
 
 // Defined middlewares
 const  {authMiddleware,isAdminMiddleware} = require('./middleware/authMiddleware');
@@ -47,7 +52,7 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
-  next();
+  next(); 
 });
 
 app.get("/", (req, res) => {

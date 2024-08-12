@@ -1,21 +1,29 @@
 const mongoose = require('../config/db');
 
 const roomSchema = new mongoose.Schema({
-  Description: String,
-  Description_fr: String,
-  Type: String,
-  BaseRate: Number,
-  BedOptions: String,
-  SleepsCount: Number,
-  SmokingAllowed: Boolean,
-  Tags: [String],
+  Description: {
+    type: String,
+    description:"Room type",
+    example: "Queen Room"
+  },
+  BaseRate: {
+    type: Number,
+    description: "Base rate of the room",
+    example: 160.99,
+  },
+  sleepsCount: {
+    type: Number,
+    description: "Number of people the room can sleep",
+    minimum: 1,
+    maximum: 6,
+    example: 2
+  
+},
 });
 
 const addressSchema = new mongoose.Schema({
   StreetAddress: String,
   City: String,
-  StateProvince: String,
-  PostalCode: String,
   Country: String,
 });
 
@@ -24,11 +32,7 @@ const hotelSchema = new mongoose.Schema({
   HotelId: String,
   HotelName: String,
   Description: String,
-  Description_fr: String,
-  Category: String,
-  Tags: [String],
-  ParkingIncluded: Boolean,
-  LastRenovationDate: Date,
+  Category: String, 
   Rating: Number,
   Address: addressSchema,
   Rooms: [roomSchema],
@@ -43,7 +47,5 @@ const hotelSchema = new mongoose.Schema({
 
 
 const hotels = mongoose.model('hotels',hotelSchema);
-
-
 
 module.exports = hotels

@@ -24,7 +24,8 @@ hotelManage.get('/add-room/:hotelName',async (req, res) => {
       res.status(500).json({ message: "Error in fetching hotel information" });
     }
   });
-// Add hotel Room
+  
+// Add new room in hotel
 hotelManage.post('/add-room/:hotelName', async (req, res) => {
   const hotelName = req.params.hotelName;
   const { description, baseRate, sleepsCount } = req.body;
@@ -50,9 +51,18 @@ hotelManage.post('/add-room/:hotelName', async (req, res) => {
   }
 });
 
-
-
 // Add new hotel
-// hotelManage.post('/add-hotel');
+hotelManage.post('/add-hotel', async (req, res) => {
+  
+      // console.log(req.body)
+  const newHotel = new HotelsCollection(req.body);
 
-module.exports = hotelManage;
+    newHotel.save()
+        .then(() => res.json({ success: true }))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ success: false });
+        });
+});
+
+module.exports = hotelManage; 

@@ -1,15 +1,11 @@
-<!-- Add Hotel -->
-<!-- Add room -->
-
-<!-- List of hotels -->
-<!-- S No. Hotel name  -->
- 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+    </style>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
  
     <title>Hotel Management</title>
@@ -17,6 +13,8 @@
 <body>
   
  <%-  include('../partials/adminNavbar') %>
+ <div class="container-fluid">
+
     <!-- Hotels Section -->
      <div class="container">
        <table class="  mt-3 table table-bordered table-hover  ">
@@ -43,6 +41,192 @@
       </tbody>
     </table>
 </div>
+<hr class="my-3">
+<!-- Add new hotel form -->
+<h2 class="text-center text-secondary mt-4">Add New Hotel</h2>
+<form id="addHotelForm" class="mx-3 mb-5 p-2">
+    <!-- Basic Info -->
+    <div class="BasicInfoContainer form-row">
+      <div class="form-group col-lg">
+        <label for="HotelName">Hotel Name</label>
+        <input type="text" class="form-control" id="HotelName" required placeholder="Enter hotel name" >
+      </div>
+      <div class="form-group col-lg">
+        <label for="Category">Category</label>
+        <input type="text" class="form-control" id="Category" required placeholder="Enter hotel category" >
+      </div>
+      <div class="form-group col-lg">
+        <label for="Rating">Rating</label>
+        <input type="number" class="form-control" id="Rating" step="0.1" required placeholder="Enter rating" >
+      </div>
+      <div class="form-group w-100">
+        <label for="Description">Description</label>
+        <textarea class="form-control" id="Description" required placeholder="Enter hotel description"></textarea>
+      </div>
+    </div>
+  
+    <!-- Address Details -->
+    <h4>Address:</h4>
+    <div class="addressContainer form-row">
+      <div class="form-group col-lg">
+        <label for="StreetAddress">Street Address</label>
+        <input type="text" class="form-control" id="StreetAddress" required placeholder="Enter street address" >
+      </div>
+      <div class="form-group col-lg">
+        <label for="City">City</label>
+        <input type="text" class="form-control" id="City" required placeholder="Enter city" >
+      </div>
+      <div class="form-group col-lg">
+        <label for="Country">Country</label>
+        <input type="text" class="form-control" id="Country" required placeholder="Enter country" >
+      </div>
+    </div>
+  
+    <!-- Room Details -->
+    <h4>Rooms:</h4>
+    <div id="roomsContainer">
+      <div class="form-row room">
+        <div class="form-group col-lg-4">
+          <label for="RoomDescription">Room Description</label>
+          <input type="text" class="form-control RoomDescription" name="Description" required placeholder="Enter room type" >
+        </div>
+        <div class="form-group col-lg-4">
+          <label for="BaseRate">Base Rate</label>
+          <input type="number" class="form-control BaseRate" step="0.01" required name="BaseRate" placeholder="Enter base rate" >
+        </div>
+        <div class="form-group col-lg-4">
+          <label for="SleepsCount">Sleeps Count</label>
+          <input type="number" class="form-control SleepsCount" name="sleepsCount" required min="1" max="6" placeholder="Enter sleeps count" >
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-secondary mb-3" id="addRoom">Add Another Room</button>
+  
+    <!-- Image URLs -->
+    <h4>Images:</h4>
+    <div class="form-group">
+      <label for="image1">Image URL 1</label>
+      <input type="text" class="form-control" id="image1" required placeholder="Enter image URL 1" >
+    </div>
+    <div class="form-group">
+      <label for="image2">Image URL 2</label>
+      <input type="text" class="form-control" id="image2" required placeholder="Enter image URL 2" >
+    </div>
+    <div class="form-group">
+      <label for="image3">Image URL 3</label>
+      <input type="text" class="form-control" id="image3" required placeholder="Enter image URL 3">
+    </div>
+    <div class="form-group">
+      <label for="image4">Image URL 4</label>
+      <input type="text" class="form-control" id="image4" required placeholder="Enter image URL 4" >
+    </div>
+    <div class="form-group">
+      <label for="image5">Image URL 5</label>
+      <input type="text" class="form-control" id="image5" required placeholder="Enter image URL 5">
+    </div>
+    <div id="notification" style="display:none" class="alert alert-success mt-3"></div>  
+    <button type="submit" class="btn btn-primary mb-3">Add Hotel</button>
+  </form>
+  
+</div>
 
+<script>
+
+  //Add new room in existing Hotel 
+document.getElementById('addRoom').addEventListener('click', function () {
+    const roomIndex = document.querySelectorAll('.room').length;
+    const roomContainer = document.createElement('div');
+    roomContainer.className = 'form-row room';
+    roomContainer.innerHTML = `
+        <div class="form-group col-lg-4">
+            <label for="RoomDescription">Room Description</label>
+            <input type="text" class="form-control RoomDescription" name="Description" required placeholder="Enter room type">
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="BaseRate">Base Rate</label>
+            <input type="number" class="form-control BaseRate" step="0.01" name="BaseRate" required placeholder="Enter base rate">
+        </div>
+        <div class="form-group col-lg-4">
+            <label for="SleepsCount">Sleeps Count</label>
+            <input type="number" class="form-control SleepsCount" name="sleepsCount" required min="1" max="6" placeholder="Enter sleeps count">
+        </div>
+    `;
+    document.getElementById('roomsContainer').appendChild(roomContainer);
+   
+    let Rooms = Array.from(document.querySelectorAll('#roomsContainer .room')).map((room, index) => ({
+        Description: room.querySelector('.RoomDescription').value,
+        BaseRate:room.querySelector('.BaseRate').value,
+        sleepsCount:room.querySelector('.SleepsCount').value,
+    }));
+});
+
+//Add new hotel form 
+document.getElementById('addHotelForm').addEventListener('submit', function(event) { 
+
+    event.preventDefault();
+    // Create the Address object
+    const Address = {
+        StreetAddress: document.getElementById('StreetAddress').value,
+        City: document.getElementById('City').value,
+        Country: document.getElementById('Country').value,
+    };
+
+    // Create the Rooms array
+    const Rooms = Array.from(document.querySelectorAll('#roomsContainer .room')).map((room, index) => ({
+        Description: room.querySelector('.RoomDescription').value,
+        BaseRate:room.querySelector('.BaseRate').value,
+        sleepsCount:room.querySelector('.SleepsCount').value,
+    }));
+
+    // Create the imagesUrl object
+    const imagesUrl = {
+        image1: document.getElementById('image1').value,
+        image2: document.getElementById('image2').value,
+        image3: document.getElementById('image3').value,
+        image4: document.getElementById('image4').value,
+        image5: document.getElementById('image5').value,
+    };
+
+    // Assemble the complete hotel object
+    const hotelData = {
+        HotelName: document.getElementById('HotelName').value,
+        Category: document.getElementById('Category').value,
+        Rating: document.getElementById('Rating').value,
+        Description: document.getElementById('Description').value,
+        Address,
+        Rooms,
+        imagesUrl
+    };
+
+    // Send the data using fetch
+   fetch('/admin/hotels/add-hotel', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(hotelData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('notification').innerText = 'Hotel added successfully!';
+            document.getElementById('notification').style.display = 'block';
+            document.getElementById('addHotelForm').reset();
+            setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        } else {
+            document.getElementById('notification').innerText = 'Failed to add hotel. Please try again.';
+            document.getElementById('notification').style.display = 'block';
+        }
+    })
+    .catch(error => {
+        console.log('Error:', error);
+        document.getElementById('notification').innerText = 'An error occurred. Please try again.';
+        document.getElementById('notification').style.display = 'block';
+    }); 
+});
+
+</script>
 </body>
 </html>
