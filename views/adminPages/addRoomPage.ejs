@@ -22,7 +22,7 @@
 <body>
     <%- include('../partials/adminNavbar') %>
 <div class="container-fluid">
-    <h1><%= hotelDetails.HotelName %></h1>
+    <h1 class="mt-3"><%= hotelDetails.HotelName %></h1>
     <p><%= hotelDetails.Description %></p>
      
       <div id="carouselExampleIndicators" class="carousel slide" >
@@ -101,7 +101,7 @@
     </div>
     <div class="form-group col-md-3">
       <label for="baseRate">Base Rate</label>
-      <input type="number" class="form-control" id="baseRate" name="baseRate" required placeholder="Enter base rate">
+      <input type="number" class="form-control" id="baseRate" step="0.01" name="baseRate" required placeholder="Enter base rate">
     </div>
     <div class="form-group col-md-3">
       <label for="sleepsCount">Sleeps Count</label>

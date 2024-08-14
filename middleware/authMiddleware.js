@@ -29,7 +29,7 @@ const isAdminMiddleware = (req, res, next) => {
       return next();
     } else {
       req.flash('error_msg', 'You are not authorized to view this page');
-      res.redirect('/');
+      res.redirect('/login');
     }
   };
 module.exports = {authMiddleware,isAdminMiddleware};
