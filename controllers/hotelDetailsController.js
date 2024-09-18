@@ -1,6 +1,6 @@
 const HotelsCollection = require("../models/hotelSchema");
 
-const showhotelInfo = async (req, res) => {
+const showHotelInfo = async (req, res) => {
     const hotelName = req.params.hotelName;
     try {
       // Fetch hotel information based on the hotelName
@@ -16,4 +16,4 @@ const showhotelInfo = async (req, res) => {
       res.status(500).json({ message: "Error in fetching hotel information" });
     }
   }
-  module.exports = showhotelInfo
+  module.exports = showHotelInfo

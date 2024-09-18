@@ -19,6 +19,7 @@
         <li class="nav-item mx-2">
           <a class="nav-link" href="/aboutUs">About Us</a>
         </li>
+        <!-- Checking if the user logged in then render its name in navbar else show option for login -->
         <% if (user) { %>
           <li class="nav-item mx-2">
               <a class="nav-link fw-bold bg-primary text-white rounded px-3" href="/profile"><%= user.fullName %></a>
@@ -26,12 +27,9 @@
       <% } else { %>
           <li class="nav-item mx-2">
               <a class="" href="/login"><button type="button" class="btn btn-outline-primary">Login</button></a>
-              
-              
           </li>
       <% } %>
       </ul>
     </div>
   </div>
 </nav>
-<!--  -->

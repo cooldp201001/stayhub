@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema({
     description: "Base rate of the room",
     example: 160.99,
   },
-  sleepsCount: {
+  SleepsCount: {
     type: Number,
     description: "Number of people the room can sleep",
     minimum: 1,

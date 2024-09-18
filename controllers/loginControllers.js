@@ -1,11 +1,10 @@
 const UserDatabase = require('../models/userSchema');
 const adminDatabase  = require('../models/adminSchema')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const JWT = require('jsonwebtoken')
 
 //Rendering the user login page
 const showLoginPage = (req,res)=>{
-//   console.log(req.flash);
     res.render('loginPage');
 }
 
@@ -22,11 +21,10 @@ const loginRequest =  async (req,res) => {
             if (passwordMatch) {
                 // Passwords match, user authenticated
                 const token= createToken (foundUser._id, foundUser.role)
-                res.cookie('jwt',token)
+                res.cookie('JWT',token,{httpOnly:true});
                                                     
                 res.status(200).json({ message: "User login successful" });        
             
-                // console.log(req.user);
             } else {
                 // Passwords don't match, send error response
                 res.status(401).json({ error: "Incorrect password" });
@@ -41,10 +39,10 @@ const loginRequest =  async (req,res) => {
          if(passwordMatched){
             //Passwords match, admin authenticated
             const token = createToken(foundAdminUser._id,foundAdminUser.role);
-            res.cookie('jwt',token);
+            res.cookie('JWT',token);
             res.status(200).json({message:"admin login successfull"})
             // res.redirect('/admin');
-            // console.log(res.);
+            console.log('calling from login controllers',foundAdminUser);
 
          }
          else{
@@ -65,9 +63,9 @@ const loginRequest =  async (req,res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
-//Jwt token creation function
+//JWT token creation function
 const createToken = (id,role)=>{
-     return jwt.sign({id,role},process.env.SECRET_KEY,{expiresIn: 24 *60* 60 } )
+     return JWT.sign({id,role},process.env.SECRET_KEY,{expiresIn: 24 *60* 60 } )
 }
 
 module.exports= {showLoginPage,loginRequest}

@@ -1,35 +1,23 @@
-const jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 
 const authMiddleware = (req,res,next)=>{
 
-    const token = req.cookies.jwt; 
-
+    const token = req.cookies.JWT; 
     if(!token){
         req.flash('error_msg', 'Please log in to view this resource');
-        req.user =null;
-       return res.redirect('/login')
+        // req.user =null;
+       return res.redirect('/login');
     }
     try{
-      const decodedToken =   jwt.verify(token,process.env.SECRET_KEY) 
-      req.user = decodedToken;
+      const decodedToken =   JWT.verify(token,process.env.SECRET_KEY) 
+    //   req.user = decodedToken;
       next();
     }
-  
     catch(error){
         req.flash('error_msg', 'Please log in to view this resource');
         req.user = null
-        res.redirect('/login')
+        res.redirect('/login');
     }
-
-
 }
 
-const isAdminMiddleware = (req, res, next) => {
-    if (req.user && req.user.role === 'admin') {
-      return next();
-    } else {
-      req.flash('error_msg', 'You are not authorized to view this page');
-      res.redirect('/login');
-    }
-  };
-module.exports = {authMiddleware,isAdminMiddleware};
+module.exports = authMiddleware;

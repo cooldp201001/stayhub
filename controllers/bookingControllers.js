@@ -9,7 +9,7 @@ const bookingController = async (req,res)=>{
         if(!hotel){
             return res.status(404).json({message:'Hotel not found'});
         }
-        res.render('BookingPage',{hotel:hotel,user:res.locals.user})
+        res.render('BookingPage',{hotel:hotel,user:res.locals.user});
     }
     catch (error){
         console.error('Error fetching hotel information',error.message);

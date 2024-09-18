@@ -62,14 +62,13 @@
   <!-- Hotel rooms -->
     <h2>Rooms</h2>
     <div class="row">
-        <% hotelDetails.Rooms.slice(0, 5).forEach(room => { %>
+        <% hotelDetails.Rooms.forEach(room => { %>
             <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><%= room.Description %></h5>
                         <!-- <p class="card-text"><b>Type:</b> <%= room.Type %></p> -->
                         <p class="card-text"><b>Base Rate:</b> $<%= room.BaseRate %></p>
-                        <!-- Add more details as needed -->
                     </div>  
                 </div>
             </div>
@@ -77,11 +76,9 @@
         
         <!-- Hotel address -->
         <div class="address-container d-flex">
-            <p><b>Street:</b> <%= hotelDetails.Address.StreetAddress %></p> 
-            <p><b>City:</b> <%= hotelDetails.Address.City %></p>
-            <p><b>State:</b> <%= hotelDetails.Address.StateProvince %></p>
-            <p><b>Postal Code:</b> <%= hotelDetails.Address.PostalCode %></p>
-            <p><b>Country:</b> <%= hotelDetails.Address.Country %></p>
+            <p class="me-1"><b>Street: </b><%= hotelDetails.Address.StreetAddress %> </p>
+            <p class="me-1" ><b >City: </b><%= hotelDetails.Address.City %> </p>
+            <p class="me-1"><b >Country: </b><%= hotelDetails.Address.Country %> </p>
           </div>
     </div>
     <div><a type="button" href="/booking/<%=hotelDetails.HotelName%>" class="btn btn-primary btn-lg">Reserve Now</a></div>

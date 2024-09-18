@@ -38,7 +38,7 @@
        <!-- Booking hotelName  -->
        <input type="hidden" id="hotelName" name="hotelName" value="<%= hotel.HotelName %>" />
        <!--Booking hotel  location-->
-       <input type="hidden" id="location" name="location" value="<%= hotel.Address.City%>, <%=hotel.Address.StateProvince %>" />
+       <input type="hidden" id="location" name="location" value="<%= hotel.Address.City%> " />
        <div></div>
       <!-- Full Name and Mobile Number -->
       <div class="row mb-3">
@@ -60,9 +60,9 @@
         <div class="col-md-6">
           <label for="roomType" class="form-label">Select Room Type:</label>
           <select class="form-select" id="roomType" name="roomType" onchange="updateGuestCountLimits()" required>
-            <% hotel.Rooms.slice(0, 5).forEach(room=> { %>
+            <% hotel.Rooms.forEach(room=> { %>
               <option value="<%= room.Description %>" data-sleeps="<%= room.SleepsCount %>">
-                <%= room.Description %> - $<%= room.BaseRate.toFixed(2) %>
+                <%= room.Description %> - $<%= room.BaseRate%>
               </option>
               <% }) %>
           </select>
@@ -138,7 +138,7 @@
       }
     });
  
-
+  // Guest counts update according to the room  type selection
     function updateGuestCountLimits() {
       var roomTypeSelect = document.getElementById("roomType");
       var guestCountInput = document.getElementById("guestCount");

@@ -5,21 +5,22 @@ const cookieParser = require("cookie-parser")
 const cors = require('cors')
 const flash = require('connect-flash');
 const session = require('express-session')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 //hotels database collection
-const HotelsCollection = require("./models/hotelSchema");
 const PORT = 1000;
 
-//routes
-const hotelDetailsRoutes= require("./Routes/hotelDetailsRoutes");
-const bookingRoutes = require("./Routes/bookingRoutes");
-const myBookingRoutes = require('./Routes/myBookingRoutes');
-const registerRoutes = require('./Routes/registerRoutes');
-const loginRoutes = require('./Routes/loginRoutes');
-const logoutRoutes = require('./Routes/logoutRoutes');
-const profileRoutes = require('./Routes/userProfileRoutes');
-const searchHotelsRoutes  = require('./Routes/searchHotelsRoutes');
-const adminRoutes  =require('./Routes/AdminRoutes/adminRoutes');
+// Defined routers
+const homeRouter = require('./routers/homeRouter');
+const hotelDetailsRouter= require("./routers/hotelDetailsRouter");
+const bookingRouter = require("./routers/bookingRouter");
+const myBookingRoutes = require('./routers/myBookingRoutes');
+const userRegisterRouter = require('./routers/userRegisterRouter');
+const loginRouter = require('./routers/loginRouter');
+const logoutRouter = require('./routers/logoutRouter');
+const profileRoutes = require('./routers/userProfileRoutes');
+const searchHotelsRoutes  = require('./routers/searchHotelsRoutes');
+const adminRoutes  =require('./routers/AdminRoutes/adminRoutes');
+
 //Middlewares
 app.set("view engine", "ejs");
 app.use(express.static('public'))
@@ -28,14 +29,10 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }));
 
-// Parse application/json
-app.use(bodyParser.json());
-
-// Defined middlewares
-const  {authMiddleware,isAdminMiddleware} = require('./middleware/authMiddleware');
-const authenticateUser= require("./middleware/authenticateUser")
+// Defined middlewares for user authentication
+const  authMiddleware= require('./middleware/authMiddleware');
+const authenticateUser= require("./middleware/authenticateUser");
 
 // Express session middleware
 app.use(session({
@@ -55,51 +52,54 @@ app.use((req, res, next) => {
   next(); 
 });
 
+
+
+// User register route
+app.use('/register',userRegisterRouter); 
+
+// Login router
+app.use('/login',loginRouter); 
+
+// Logout router
+app.use ('/logout',logoutRouter);
+
+// checking user status on each routes 
+app.use(authenticateUser);
+
+// Home route
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
-// Home routes
 
-app.get("/home",authenticateUser, async (req, res) => {
-  const hotelsInfo = await HotelsCollection.find();
-  res.render("homePage", { hotelsInfo:hotelsInfo,
-     user: res.locals.user});
-  
-});
+// Home route
+app.use('/home',homeRouter);
 
-// Register router
-app.use('/register',registerRoutes)
-
-// Login router
-app.use('/login',loginRoutes)
-
-// Logout routerb
-app.use ('/logout',logoutRoutes)
-
-// Router for showing specific hotel details
-app.use("/hotel-details",authenticateUser, hotelDetailsRoutes);
-
-//  Hotel booking router for selected hotel
-app.use("/booking",authenticateUser, bookingRoutes); 
-
-//middleware for protected routes
-app.use(authMiddleware);
-
-//my booking route
-app.use('/mybookings',authenticateUser,myBookingRoutes);
-
-app.use('/profile',authenticateUser, profileRoutes);
+// Route for showing specific hotel details
+app.use("/hotel-details", hotelDetailsRouter);
 
 //about us route
-app.use('/aboutUs',authenticateUser,(req,res)=>{
+app.use('/aboutUs',(req,res)=>{
   res.render('aboutUsPage');
 })
 
-// Search hotel
-app.use('/search-hotels',authenticateUser,searchHotelsRoutes);
-
 //Admin routes
-app.use('/admin',adminRoutes);
+app.use('/admin/dashboard',adminRoutes);  //TODO
+
+//middleware for protected routes cannot access below routes without login
+app.use(authMiddleware);
+
+//  Hotel booking route for selected hotel
+app.use("/booking", bookingRouter); 
+
+// Route to show user's own bookings
+app.use('/mybookings',myBookingRoutes);
+
+// Route for searching hotels
+app.use('/search-hotels',searchHotelsRoutes)
+
+// Profile routes
+app.use('/profile', profileRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
