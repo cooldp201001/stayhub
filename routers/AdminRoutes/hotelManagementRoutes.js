@@ -2,7 +2,7 @@ const express = require('express');
 const hotelManage = express.Router();
 const HotelsCollection = require('../../models/hotelSchema')
 
-const {getAllhotels} = require('../../controllers/adminContollers/hotelManagementControllers');
+const getAllhotels = require('../../controllers/adminContollers/hotelManagementControllers');
 
 //Get all Hotels
 hotelManage.get('/',getAllhotels);
@@ -16,7 +16,6 @@ hotelManage.get('/add-room/:hotelName',async (req, res) => {
       if (!hotelDetails) {
         return res.status(404).json({ message:"Hotel not found"});
       }
-  
       // Render the Addroom page with hotel information
       res.render("adminPages/addRoomPage", {hotelDetails});
     } catch (error) {
@@ -53,14 +52,11 @@ hotelManage.post('/add-room/:hotelName', async (req, res) => {
 
 // Add new hotel
 hotelManage.post('/add-hotel', async (req, res) => {
-  
-      // console.log(req.body)
   const newHotel = new HotelsCollection(req.body);
-
     newHotel.save()
         .then(() => res.json({ success: true }))
         .catch(err => {
-            console.error(err);
+            console.log('Error in adding new hotel:',err);
             res.status(500).json({ success: false });
         });
 });

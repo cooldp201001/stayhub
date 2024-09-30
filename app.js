@@ -5,21 +5,20 @@ const cookieParser = require("cookie-parser")
 const cors = require('cors')
 const flash = require('connect-flash');
 const session = require('express-session')
-// const bodyParser = require('body-parser')
-//hotels database collection
+const bodyParser = require('body-parser')
 const PORT = 1000;
 
 // Defined routers
 const homeRouter = require('./routers/homeRouter');
-const hotelDetailsRouter= require("./routers/hotelDetailsRouter");
+const hotelDetailsRouter = require("./routers/hotelDetailsRouter");
 const bookingRouter = require("./routers/bookingRouter");
 const myBookingRoutes = require('./routers/myBookingRoutes');
 const userRegisterRouter = require('./routers/userRegisterRouter');
 const loginRouter = require('./routers/loginRouter');
 const logoutRouter = require('./routers/logoutRouter');
 const profileRoutes = require('./routers/userProfileRoutes');
-const searchHotelsRoutes  = require('./routers/searchHotelsRoutes');
-const adminRoutes  =require('./routers/AdminRoutes/adminRoutes');
+const searchHotelsRoutes = require('./routers/searchHotelsRoutes');
+const adminRoutes = require('./routers/AdminRoutes/adminRoutes');
 
 //Middlewares
 app.set("view engine", "ejs");
@@ -29,14 +28,17 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors())
+app.use(bodyParser.json());
 
 // Defined middlewares for user authentication
-const  authMiddleware= require('./middleware/authMiddleware');
-const authenticateUser= require("./middleware/authenticateUser");
+const userLoginMiddleware = require('./middleware/userLoginMiddleware');
+const authenticateUser = require("./middleware/authenticateUser");
+const isAdminMiddleware = require('./middleware/isAdminMiddleware');
+const userOnlyMiddleware = require('./middleware/userOnlyMiddleware');
 
 // Express session middleware
 app.use(session({
-  secret: 'yourSecretKey',
+  secret: process.env.SESSION_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false } // Set to true if using HTTPS
@@ -49,57 +51,43 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
-  next(); 
+  next();
 });
 
+// Public routes (accessible by anyone)
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 
-// User register route
-app.use('/register',userRegisterRouter); 
-
-// Login router
-app.use('/login',loginRouter); 
-
-// Logout router
-app.use ('/logout',logoutRouter);
-
-// checking user status on each routes 
+// checking user status and user type on each routes 
 app.use(authenticateUser);
+// Admin routes (only accessible by admins)
+app.use('/admin', isAdminMiddleware, adminRoutes);
 
-// Home route
+// User routes only (not for admin) ,User can access without login 
 app.get("/", (req, res) => {
   res.redirect("/home");
 });
-
-// Home route
-app.use('/home',homeRouter);
-
-// Route for showing specific hotel details
-app.use("/hotel-details", hotelDetailsRouter);
-
-//about us route
-app.use('/aboutUs',(req,res)=>{
+app.use('/home', userOnlyMiddleware, homeRouter);
+app.use('/hotel-details', userOnlyMiddleware, hotelDetailsRouter);
+app.use('/register', userOnlyMiddleware, userRegisterRouter);
+app.use('/aboutUs',userOnlyMiddleware, (req, res) => {
   res.render('aboutUsPage');
-})
+});
 
-//Admin routes
-app.use('/admin/dashboard',adminRoutes);  //TODO
-
-//middleware for protected routes cannot access below routes without login
-app.use(authMiddleware);
-
-//  Hotel booking route for selected hotel
-app.use("/booking", bookingRouter); 
-
-// Route to show user's own bookings
-app.use('/mybookings',myBookingRoutes);
-
-// Route for searching hotels
-app.use('/search-hotels',searchHotelsRoutes)
-
-// Profile routes
+app.use((req, res, next) => {
+  res.status(404).json({
+    message: "Route not found",
+    error: "The requested route does not exist on this server.",
+  });
+});
+// User routes (only accessible by logged-in users)
+app.use(userLoginMiddleware);
+app.use('/booking', bookingRouter);
+app.use('/mybookings', myBookingRoutes);
 app.use('/profile', profileRoutes);
-
+app.use('/search-hotels', searchHotelsRoutes);
+// Catch undefined or non-existent routes
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);

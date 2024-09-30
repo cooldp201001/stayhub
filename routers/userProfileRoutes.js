@@ -5,7 +5,7 @@ const newUser = require('../models/userSchema'); // Adjust the path as needed
 
 // Get profile page
 router.get('/', (req, res) => {
-  res.render('profilePage', { user: res.locals.user });
+  res.render('profilePage', { user: res.locals.user});
   //  console.log(res.locals);
 });
 

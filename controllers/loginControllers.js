@@ -42,7 +42,6 @@ const loginRequest =  async (req,res) => {
             res.cookie('JWT',token);
             res.status(200).json({message:"admin login successfull"})
             // res.redirect('/admin');
-            console.log('calling from login controllers',foundAdminUser);
 
          }
          else{
