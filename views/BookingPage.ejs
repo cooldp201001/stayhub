@@ -11,8 +11,8 @@
 
 <body>
   <%- include('partials/navbar') %>
-  <div class="container mt-5">
-    <h1>Hotel Booking</h1>
+  <div class="container">
+    <h1 class="mt-3">Hotel Booking</h1>
 
     <!-- Booking Form -->
     <form id="bookingForm" class="mt-4" method="post" enctype="application/x-www-form-urlencoded"
@@ -24,7 +24,7 @@
       
             <%= hotel.HotelName %>
           </h5>
-          <p class="card-text">
+          <p class="card-text mb-0">
             <b>Location:</b>
             <%= hotel.Address.City %>, <%= hotel.Address.StateProvince %>
           </p>
@@ -41,7 +41,7 @@
        <input type="hidden" id="location" name="location" value="<%= hotel.Address.City%> " />
        <div></div>
       <!-- Full Name and Mobile Number -->
-      <div class="row mb-3">
+      <div class="row mt-3">
         <div class="col-md-6">
           <label for="fullName" class="form-label">Full Name:</label>
           <input type="text" class="form-control" id="fullName" name="fullName" required />
@@ -56,7 +56,7 @@
       </div>
 
       <!-- Room Type Selection -->
-      <div class="row mb-3">
+      <div class="row mt-3">
         <div class="col-md-6">
           <label for="roomType" class="form-label">Select Room Type:</label>
           <select class="form-select" id="roomType" name="roomType" onchange="updateGuestCountLimits()" required>
@@ -68,7 +68,7 @@
           </select>
         </div>
 
-      <!-- copy here -->
+   
           <!-- Number of Guests -->
           <div class="col-md-6">
             <label for="guestCount" class="form-label">Number of Guests:</label>
@@ -78,7 +78,7 @@
         </div>
    
         <!-- Date Range Selection -->
-        <div class="row mb-3">
+        <div class="row mt-3">
           <div class="col-md-6">
             <label for="checkInDate" class="form-label">Check-in Date:</label>
             <input type="date" class="form-control" id="checkInDate" name="checkInDate" required />
@@ -94,7 +94,8 @@
         <input type="date" id="bookingDate" name="bookingDate" hidden>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary">Book Now</button>
+       <div class="d-flex align-item-center justify-content-center mt-4" >
+      <button type="submit" class="btn btn-primary fs-4">Book Now</button>
     </form>
   </div>
 

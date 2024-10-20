@@ -75,12 +75,12 @@ app.use('/aboutUs',userOnlyMiddleware, (req, res) => {
   res.render('aboutUsPage');
 });
 
-app.use((req, res, next) => {
-  res.status(404).json({
-    message: "Route not found",
-    error: "The requested route does not exist on this server.",
-  });
-});
+// app.use((req, res, next) => {
+//   res.status(404).json({
+//     message: "Route not found",
+//     error: "The requested route does not exist on this server.",
+//   });
+// });
 // User routes (only accessible by logged-in users)
 app.use(userLoginMiddleware);
 app.use('/booking', bookingRouter);
