@@ -41,7 +41,7 @@
     <div class="row mx-2">
         <% myBookings.forEach(booking => { %>
             <div class="col-md-4">
-                <div class="card booking-card p-0">
+                <div class="card booking-card p-0 shadow bg-body rounded">
                     <div class="card-body">
                         <h2><%= booking.hotelName %></h2>
                         <p><strong>Check-in Date:</strong> <span id="checkInDate_<%= booking._id %>"><%= booking.checkInDate %></span></p>

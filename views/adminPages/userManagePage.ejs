@@ -9,7 +9,7 @@
   <title>Users Management</title>
 </head>
 
-<body>
+<body style="background-color: #dbdbdb;">
   <%- include('../partials/adminNavbar') %>
 
     <div class="container-fluid">
@@ -18,9 +18,9 @@
       <div>
         <h2 class="text-center mt-5">Add User</h2>
         <!-- Add User Form -->
-        <div class="card mb-5 w-75 mx-auto">
+        <div class="card mb-5 w-75 mx-auto bg-light bg-gradient shadow-lg rounded" >
           <div class="card-body">
-            <form id="addUserForm" >
+            <form id="addUserForm">
               <div class="form-group">
                 <label for="addFullName">Full Name</label>
                 <input type="text" class="form-control" id="addFullName" name="addFullName" required />
@@ -44,12 +44,13 @@
       <!-- Delete user section -->
       <div>
         <h2 class="text-center">Delete User</h2>
-        <div class="card mb-5 w-75 mx-auto">
+        <div class="card mb-5 w-75 mx-auto bg-light bg-gradient shadow-lg rounded">
           <div class="card-body">
             <form id="deleteUserForm">
               <div class="form-group">
                 <label for="deleteEmail">Email</label>
-                <input type="email" class="form-control" id="deleteEmail" name="deleteEmail" required placeholder="Enter email" />
+                <input type="email" class="form-control" id="deleteEmail" name="deleteEmail" required
+                  placeholder="Enter email" />
               </div>
 
               <button type="submit" class="btn btn-primary">Delete</button>
@@ -60,9 +61,9 @@
       </div>
 
       <!-- Users Section -->
-          <div>
+      <div>
         <h2 class="text-center">Registered Users</h2>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover bg-light bg-gradient w-75 mx-auto shadow-lg rounded">
           <thead>
             <tr>
               <th style="width: 7%">S. No</th>
@@ -93,69 +94,70 @@
 
 <script>
   // Add user
-  document.getElementById('addUserForm').addEventListener('submit', async function(event) {
+  document.getElementById('addUserForm').addEventListener('submit', async function (event) {
     event.preventDefault();
     const addUserNotification = document.getElementById('addUserNotification');
-   
-      const formData = {
-        fullName: document.getElementById('addFullName').value,
-        email: document.getElementById('addEmail').value,
-        password: document.getElementById('addPassword').value,
-      };
 
-      try {
-        const response = await fetch('/admin/users/add-user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-        });
+    const formData = {
+      fullName: document.getElementById('addFullName').value,
+      email: document.getElementById('addEmail').value,
+      password: document.getElementById('addPassword').value,
+    };
 
-        const result = await response.json();
-     
-        // User added sucessfully
-        if (response.ok) {
+    try {
+      const response = await fetch('/admin/users/add-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      // User added sucessfully
+      if (response.ok) {
         addUserNotification.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
         setTimeout(() => {
           window.location.reload();
-        }, 2000); 
+        }, 2000);
       } else {
         addUserNotification.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
       }
     } catch (error) {
       addUserNotification.innerHTML = `<div class="alert alert-danger">An error occurred: ${error.message}</div>`;
     }
-    });
+  });
 
-    //Delete user
-document.getElementById('deleteUserForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
+  //Delete user
+  document.getElementById('deleteUserForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-      const email = document.getElementById('deleteEmail').value;
-      const deleteNotification = document.getElementById('deleteNotification');
+    const email = document.getElementById('deleteEmail').value;
+    const deleteNotification = document.getElementById('deleteNotification');
 
-      try {
-        const response = await fetch('/admin/users/delete-user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email })
-        });
+    try {
+      const response = await fetch('/admin/users/delete-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      });
 
-        const result = await response.json();
-        
-        deleteNotification.innerHTML = ` <div class="alert ${response.ok ? 'alert-success' : 'alert-danger'}"> ${result.message} </div> `;
+      const result = await response.json();
 
-        if (response.ok) {
-          setTimeout(() => window.location.reload(), 2000); // Refresh the page after 2 seconds
-        }
+      deleteNotification.innerHTML = ` <div class="alert ${response.ok ? 'alert-success' : 'alert-danger'}"> ${result.message} </div> `;
 
-      } catch (error) {
-        deleteNotification.innerHTML = `
-          <div class="alert alert-danger"> An error occurred: ${error.message} </div> `;
+      if (response.ok) {
+        setTimeout(() => window.location.reload(), 2000); // Refresh the page after 2 seconds
       }
-    });
+
+    } catch (error) {
+      deleteNotification.innerHTML = `
+          <div class="alert alert-danger"> An error occurred: ${error.message} </div> `;
+    }
+  });
 </script>
+
 </html>
